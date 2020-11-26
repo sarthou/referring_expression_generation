@@ -1,0 +1,14 @@
+<launch>
+  <arg name="language" default="en"/>
+  <arg name="intern_file" default="none"/>
+  <arg name="files" default="
+    $(find referring_expression_generation)/resources/ontology/expe_ontology.owl
+    $(find referring_expression_generation)/resources/ontology/bedroom.owl
+    $(find referring_expression_generation)/resources/ontology/living_room.owl
+    $(find referring_expression_generation)/resources/ontology/office.owl
+    "/>
+  <arg name="config" default="$(find referring_expression_generation)/resources/conf/no_generalization.yaml"/>
+
+  <node name="ontologenius_core" pkg="ontologenius" type="ontologenius" output="screen" args="-l $(arg language) -i $(arg intern_file) -c $(arg config) $(arg files)"> </node>
+  <node name="ontologenius_gui" pkg="ontologenius" type="ontoloGUI" output="screen"> </node>
+</launch>

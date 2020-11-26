@@ -1,0 +1,317 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="office#"
+     xml:base="office"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+    <owl:Ontology rdf:about="office"/>
+
+
+
+    <!--
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+
+
+
+
+    <!--
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+
+
+    <!--
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+
+
+    <!--
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+
+
+    <!-- office#room_O_office -->
+
+    <owl:NamedIndividual rdf:about="office#room_O_office">
+      <rdf:type rdf:resource="expe_ontologies#Room"/>
+      <expe_ontologies:hasVolume rdf:datatype="float#float">24.0</expe_ontologies:hasVolume>
+      <rdfs:label xml:lang="fr">bureau</rdfs:label>
+      <rdfs:label xml:lang="en">office</rdfs:label>
+      <expe_ontologies:isVisibleBy rdf:resource="expe_ontologies#bob"/>
+    </owl:NamedIndividual>
+
+
+
+    <!-- office#chair_O_0 -->
+
+    <owl:NamedIndividual rdf:about="office#chair_O_0">
+      <rdf:type rdf:resource="expe_ontologies#Chair"/>
+      <expe_ontologies:hasColor rdf:resource="expe_ontologies#white"/>
+      <expe_ontologies:isInRoom rdf:resource="office#room_O_office"/>
+      <expe_ontologies:isVisibleBy rdf:resource="expe_ontologies#bob"/>
+    </owl:NamedIndividual>
+
+
+
+    <!-- office#table_O_0 -->
+
+    <owl:NamedIndividual rdf:about="office#table_O_0">
+      <rdf:type rdf:resource="expe_ontologies#Table"/>
+      <expe_ontologies:hasColor rdf:resource="expe_ontologies#black"/>
+      <expe_ontologies:atLeftOf rdf:resource="office#chair_O_0"/>
+      <expe_ontologies:isInRoom rdf:resource="office#room_O_office"/>
+      <expe_ontologies:isVisibleBy rdf:resource="expe_ontologies#bob"/>
+    </owl:NamedIndividual>
+
+
+    <!-- office#lamp_O_0 -->
+
+    <owl:NamedIndividual rdf:about="office#lamp_O_0">
+      <rdf:type rdf:resource="expe_ontologies#Lamp"/>
+      <expe_ontologies:hasColor rdf:resource="expe_ontologies#white"/>
+      <expe_ontologies:isOnTopOf rdf:resource="office#table_O_0"/>
+      <expe_ontologies:isInRoom rdf:resource="office#room_O_office"/>
+    </owl:NamedIndividual>
+
+
+
+    <!-- office#lamp_O_1 -->
+
+    <owl:NamedIndividual rdf:about="office#lamp_O_1">
+      <rdf:type rdf:resource="expe_ontologies#Lamp"/>
+      <expe_ontologies:hasColor rdf:resource="expe_ontologies#yellow"/>
+      <expe_ontologies:behind rdf:resource="office#table_O_0"/>
+      <expe_ontologies:isInRoom rdf:resource="office#room_O_office"/>
+      <expe_ontologies:isVisibleBy rdf:resource="expe_ontologies#bob"/>
+    </owl:NamedIndividual>
+
+
+
+
+    <!-- office#drawer_O_0 -->
+
+    <owl:NamedIndividual rdf:about="office#drawer_O_0">
+      <rdf:type rdf:resource="expe_ontologies#Drawer"/>
+      <expe_ontologies:hasColor rdf:resource="expe_ontologies#wooden"/>
+      <expe_ontologies:atLeftOf rdf:resource="office#table_O_0"/>
+      <expe_ontologies:isInRoom rdf:resource="office#room_O_office"/>
+      <expe_ontologies:isVisibleBy rdf:resource="expe_ontologies#bob"/>
+    </owl:NamedIndividual>
+
+
+
+    <!-- office#fan_O_0 -->
+
+    <owl:NamedIndividual rdf:about="office#fan_O_0">
+      <rdf:type rdf:resource="expe_ontologies#Fan"/>
+      <expe_ontologies:hasColor rdf:resource="expe_ontologies#white"/>
+      <expe_ontologies:isOnTopOf rdf:resource="office#drawer_O_0"/>
+      <expe_ontologies:isInRoom rdf:resource="office#room_O_office"/>
+      <expe_ontologies:isVisibleBy rdf:resource="expe_ontologies#bob"/>
+    </owl:NamedIndividual>
+
+
+
+    <!-- office#cup_O_0 -->
+
+    <owl:NamedIndividual rdf:about="office#cup_O_0">
+      <rdf:type rdf:resource="expe_ontologies#Cup"/>
+      <expe_ontologies:hasColor rdf:resource="expe_ontologies#green"/>
+      <expe_ontologies:isInContainer rdf:resource="office#drawer_O_0"/>
+      <expe_ontologies:isInRoom rdf:resource="office#room_O_office"/>
+    </owl:NamedIndividual>
+
+    <!-- office#ball_l_0 -->
+
+    <owl:NamedIndividual rdf:about="office#ball_O_0">
+      <rdf:type rdf:resource="expe_ontologies#Ball"/>
+      <expe_ontologies:hasColor rdf:resource="expe_ontologies#yellow"/>
+      <expe_ontologies:isInContainer rdf:resource="office#box_O_5"/>
+      <expe_ontologies:isInRoom rdf:resource="expe_ontologies#room_O_office"/>
+    </owl:NamedIndividual>
+
+
+
+    <!-- office#shelf_O_0 -->
+
+    <owl:NamedIndividual rdf:about="office#shelf_O_0">
+      <rdf:type rdf:resource="expe_ontologies#Shelf"/>
+      <expe_ontologies:hasColor rdf:resource="expe_ontologies#wooden"/>
+      <expe_ontologies:atLeftOf rdf:resource="office#drawer_O_0"/>
+      <expe_ontologies:isVisibleBy rdf:resource="expe_ontologies#bob"/>
+    </owl:NamedIndividual>
+
+
+
+    <!-- office#room_O_book_0 -->
+
+    <owl:NamedIndividual rdf:about="office#room_O_book_0">
+      <rdf:type rdf:resource="expe_ontologies#Book"/>
+      <expe_ontologies:isInRoom rdf:resource="office#room_O_office"/>
+      <expe_ontologies:isInContainer rdf:resource="office#shelf_O_0"/>
+      <expe_ontologies:hasColor rdf:resource="expe_ontologies#pink"/>
+    </owl:NamedIndividual>
+
+
+
+    <!-- office#room_B_book_9 -->
+
+    <owl:NamedIndividual rdf:about="office#room_B_book_9">
+      <rdf:type rdf:resource="expe_ontologies#Book"/>
+      <expe_ontologies:isInRoom rdf:resource="office#room_O_office"/>
+      <expe_ontologies:isInContainer rdf:resource="office#shelf_O_0"/>
+      <expe_ontologies:atRightOf rdf:resource="office#room_O_book_0"/>
+      <expe_ontologies:hasColor rdf:resource="expe_ontologies#grey"/>
+    </owl:NamedIndividual>
+
+
+    <!-- office#TV_O_0 -->
+
+    <owl:NamedIndividual rdf:about="office#TV_O_0">
+      <rdf:type rdf:resource="expe_ontologies#TV"/>
+      <expe_ontologies:hasColor rdf:resource="expe_ontologies#black"/>
+      <expe_ontologies:isOnTopOf rdf:resource="office#shelf_O_0"/>
+      <expe_ontologies:isInRoom rdf:resource="office#room_O_office"/>
+      <expe_ontologies:isVisibleBy rdf:resource="expe_ontologies#bob"/>
+    </owl:NamedIndividual>
+
+
+    <!-- office#cup_O_2 -->
+
+    <owl:NamedIndividual rdf:about="office#cup_O_2">
+      <rdf:type rdf:resource="expe_ontologies#Cup"/>
+      <expe_ontologies:hasColor rdf:resource="expe_ontologies#green"/>
+      <expe_ontologies:isInContainer rdf:resource="office#shelf_O_0"/>
+      <expe_ontologies:isInRoom rdf:resource="office#room_O_office"/>
+      <expe_ontologies:isVisibleBy rdf:resource="expe_ontologies#bob"/>
+    </owl:NamedIndividual>
+
+
+    <!-- office#table_O_1 -->
+
+    <owl:NamedIndividual rdf:about="office#table_O_1">
+      <rdf:type rdf:resource="expe_ontologies#Table"/>
+      <expe_ontologies:hasColor rdf:resource="expe_ontologies#wooden"/>
+      <expe_ontologies:isInRoom rdf:resource="office#room_O_office"/>
+      <expe_ontologies:isVisibleBy rdf:resource="expe_ontologies#bob"/>
+    </owl:NamedIndividual>
+
+
+    <!-- office#chair_O_1 -->
+
+    <owl:NamedIndividual rdf:about="office#chair_O_1">
+      <rdf:type rdf:resource="expe_ontologies#Chair"/>
+      <expe_ontologies:hasColor rdf:resource="expe_ontologies#black"/>
+      <expe_ontologies:inFrontOf rdf:resource="table_O_1"/>
+      <expe_ontologies:isInRoom rdf:resource="office#room_O_office"/>
+      <expe_ontologies:isVisibleBy rdf:resource="expe_ontologies#bob"/>
+    </owl:NamedIndividual>
+
+
+    <!-- office#cup_O_3 -->
+
+    <owl:NamedIndividual rdf:about="office#cup_O_3">
+      <rdf:type rdf:resource="expe_ontologies#Cup"/>
+      <expe_ontologies:hasColor rdf:resource="expe_ontologies#green"/>
+      <expe_ontologies:isOnTopOf rdf:resource="office#table_O_1"/>
+      <expe_ontologies:isInRoom rdf:resource="office#room_O_office"/>
+      <expe_ontologies:isVisibleBy rdf:resource="expe_ontologies#bob"/>
+    </owl:NamedIndividual>
+
+
+    <!-- office#cup_O_4 -->
+
+    <owl:NamedIndividual rdf:about="office#cup_O_4">
+      <rdf:type rdf:resource="expe_ontologies#Cup"/>
+      <expe_ontologies:hasColor rdf:resource="expe_ontologies#green"/>
+      <expe_ontologies:isOnTopOf rdf:resource="office#table_O_1"/>
+      <expe_ontologies:atLeftOf rdf:resource="office#cup_O_3"/>
+      <expe_ontologies:isInRoom rdf:resource="office#room_O_office"/>
+      <expe_ontologies:isVisibleBy rdf:resource="expe_ontologies#bob"/>
+    </owl:NamedIndividual>
+
+
+    <!-- office#lamp_O_2 -->
+
+    <owl:NamedIndividual rdf:about="office#lamp_O_2">
+      <rdf:type rdf:resource="expe_ontologies#Lamp"/>
+      <expe_ontologies:hasColor rdf:resource="expe_ontologies#white"/>
+      <expe_ontologies:isOnTopOf rdf:resource="office#table_O_1"/>
+      <expe_ontologies:atRightOf rdf:resource="office#cup_O_3"/>
+      <expe_ontologies:atRightOf rdf:resource="office#cup_O_4"/>
+      <expe_ontologies:isInRoom rdf:resource="office#room_O_office"/>
+      <expe_ontologies:isVisibleBy rdf:resource="expe_ontologies#bob"/>
+    </owl:NamedIndividual>
+
+
+    <!-- office#shelf_O_1 -->
+
+    <owl:NamedIndividual rdf:about="office#shelf_O_1">
+      <rdf:type rdf:resource="expe_ontologies#Shelf"/>
+      <expe_ontologies:hasColor rdf:resource="expe_ontologies#wooden"/>
+      <expe_ontologies:atRightOf rdf:resource="office#table_O_1"/>
+      <expe_ontologies:isInRoom rdf:resource="office#room_O_office"/>
+      <expe_ontologies:isVisibleBy rdf:resource="expe_ontologies#bob"/>
+    </owl:NamedIndividual>
+
+
+
+    <!-- office#TV_O_1 -->
+
+    <owl:NamedIndividual rdf:about="office#TV_O_1">
+      <rdf:type rdf:resource="expe_ontologies#TV"/>
+      <expe_ontologies:hasColor rdf:resource="expe_ontologies#black"/>
+      <expe_ontologies:isOnTopOf rdf:resource="office#shelf_O_1"/>
+      <expe_ontologies:isInRoom rdf:resource="office#room_O_office"/>
+      <expe_ontologies:isVisibleBy rdf:resource="expe_ontologies#bob"/>
+    </owl:NamedIndividual>
+
+
+
+    <!-- office#cup_O_5 -->
+
+    <owl:NamedIndividual rdf:about="office#cup_O_5">
+      <rdf:type rdf:resource="expe_ontologies#Cup"/>
+      <expe_ontologies:hasColor rdf:resource="expe_ontologies#green"/>
+      <expe_ontologies:isOnTopOf rdf:resource="office#shelf_O_1"/>
+      <expe_ontologies:atLeftOf rdf:resource="office#TV_O_1"/>
+      <expe_ontologies:isInRoom rdf:resource="office#room_O_office"/>
+      <expe_ontologies:isVisibleBy rdf:resource="expe_ontologies#bob"/>
+    </owl:NamedIndividual>
+
+
+    <!--
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // General axioms
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.2.8.20170104-2310) https://github.com/owlcs/owlapi -->

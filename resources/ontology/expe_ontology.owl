@@ -1,0 +1,1061 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="expe_ontologies#"
+     xml:base="expe_ontologies"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+    <owl:Ontology rdf:about="expe_ontologies"/>
+
+
+
+    <!--
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+
+
+
+    <!-- expe_ontologies#DisplayableRelation -->
+
+    <owl:ObjectProperty rdf:about="expe_ontologies#DisplayableRelation">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+    </owl:ObjectProperty>
+
+
+
+    <!-- expe_ontologies#GeometricalRelation -->
+
+    <owl:ObjectProperty rdf:about="expe_ontologies#GeometricalRelation">
+        <rdfs:subPropertyOf rdf:resource="expe_ontologies#VisualRelation"/>
+    </owl:ObjectProperty>
+
+
+
+    <!-- expe_ontologies#PointableRelation -->
+
+    <owl:ObjectProperty rdf:about="expe_ontologies#PointableRelation">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+    </owl:ObjectProperty>
+
+
+
+    <!-- expe_ontologies#VisualRelation -->
+
+    <owl:ObjectProperty rdf:about="expe_ontologies#VisualRelation">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+    </owl:ObjectProperty>
+
+
+
+    <!-- expe_ontologies#atLeftOf -->
+
+    <owl:ObjectProperty rdf:about="expe_ontologies#atLeftOf">
+        <rdfs:subPropertyOf rdf:resource="expe_ontologies#GeometricalRelation"/>
+        <owl:inverseOf rdf:resource="expe_ontologies#atRightOf"/>
+        <rdfs:domain rdf:resource="expe_ontologies#Entity"/>
+        <rdfs:range rdf:resource="expe_ontologies#Entity"/>
+        <rdfs:label xml:lang="fr">a gauche de</rdfs:label>
+        <rdfs:label xml:lang="en">at left of</rdfs:label>
+    </owl:ObjectProperty>
+
+
+
+    <!-- expe_ontologies#atRightOf -->
+
+    <owl:ObjectProperty rdf:about="expe_ontologies#atRightOf">
+        <rdfs:subPropertyOf rdf:resource="expe_ontologies#GeometricalRelation"/>
+        <rdfs:domain rdf:resource="expe_ontologies#Entity"/>
+        <rdfs:range rdf:resource="expe_ontologies#Entity"/>
+        <rdfs:label xml:lang="fr">a droite de</rdfs:label>
+        <rdfs:label xml:lang="en">at right of</rdfs:label>
+    </owl:ObjectProperty>
+
+
+
+    <!-- expe_ontologies#behind -->
+
+    <owl:ObjectProperty rdf:about="expe_ontologies#behind">
+        <rdfs:subPropertyOf rdf:resource="expe_ontologies#GeometricalRelation"/>
+        <owl:inverseOf rdf:resource="expe_ontologies#inFrontOf"/>
+        <rdfs:domain rdf:resource="expe_ontologies#Entity"/>
+        <rdfs:range rdf:resource="expe_ontologies#Entity"/>
+        <rdfs:label xml:lang="en">behind</rdfs:label>
+        <rdfs:label xml:lang="fr">derriere</rdfs:label>
+    </owl:ObjectProperty>
+
+
+
+    <!-- expe_ontologies#canSee -->
+
+    <owl:ObjectProperty rdf:about="expe_ontologies#canSee">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdfs:domain rdf:resource="expe_ontologies#Agent"/>
+        <rdfs:range rdf:resource="expe_ontologies#Entity"/>
+    </owl:ObjectProperty>
+
+
+
+    <!-- expe_ontologies#containerHasIn -->
+
+    <owl:ObjectProperty rdf:about="expe_ontologies#containerHasIn">
+        <rdfs:subPropertyOf rdf:resource="expe_ontologies#hasIn"/>
+        <owl:inverseOf rdf:resource="expe_ontologies#isInContainer"/>
+        <rdfs:domain rdf:resource="expe_ontologies#Container"/>
+        <rdfs:range rdf:resource="expe_ontologies#Object"/>
+    </owl:ObjectProperty>
+
+
+
+    <!-- expe_ontologies#hasColor -->
+
+    <owl:ObjectProperty rdf:about="expe_ontologies#hasColor">
+        <rdfs:subPropertyOf rdf:resource="expe_ontologies#VisualRelation"/>
+        <rdfs:domain rdf:resource="expe_ontologies#Object"/>
+        <rdfs:range rdf:resource="expe_ontologies#Color"/>
+    </owl:ObjectProperty>
+
+
+
+    <!-- expe_ontologies#hasConnectionFrom -->
+
+    <owl:ObjectProperty rdf:about="expe_ontologies#hasConnectionFrom">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <owl:inverseOf rdf:resource="expe_ontologies#isConnectedTo"/>
+    </owl:ObjectProperty>
+
+
+
+    <!-- expe_ontologies#hasIn -->
+
+    <owl:ObjectProperty rdf:about="expe_ontologies#hasIn">
+        <rdfs:subPropertyOf rdf:resource="expe_ontologies#GeometricalRelation"/>
+        <owl:inverseOf rdf:resource="expe_ontologies#isIn"/>
+        <rdfs:range rdf:resource="expe_ontologies#Entity"/>
+    </owl:ObjectProperty>
+
+
+
+    <!-- expe_ontologies#hasInLeftHand -->
+
+    <owl:ObjectProperty rdf:about="expe_ontologies#hasInLeftHand">
+        <rdfs:subPropertyOf rdf:resource="expe_ontologies#isHolding"/>
+        <owl:inverseOf rdf:resource="expe_ontologies#isInLeftHandOf"/>
+        <rdfs:domain rdf:resource="expe_ontologies#Agent"/>
+        <rdfs:range rdf:resource="expe_ontologies#Pickable"/>
+    </owl:ObjectProperty>
+
+
+
+    <!-- expe_ontologies#hasInReach -->
+
+    <owl:ObjectProperty rdf:about="expe_ontologies#hasInReach">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <owl:inverseOf rdf:resource="expe_ontologies#isReachableBy"/>
+        <rdfs:domain rdf:resource="expe_ontologies#Agent"/>
+        <rdfs:range rdf:resource="expe_ontologies#Object"/>
+    </owl:ObjectProperty>
+
+
+
+    <!-- expe_ontologies#hasInRightHand -->
+
+    <owl:ObjectProperty rdf:about="expe_ontologies#hasInRightHand">
+        <rdfs:subPropertyOf rdf:resource="expe_ontologies#isHolding"/>
+        <owl:inverseOf rdf:resource="expe_ontologies#isInRightHandOf"/>
+        <rdfs:domain rdf:resource="expe_ontologies#Agent"/>
+        <rdfs:range rdf:resource="expe_ontologies#Pickable"/>
+    </owl:ObjectProperty>
+
+
+
+    <!-- expe_ontologies#hasPose -->
+
+    <owl:ObjectProperty rdf:about="expe_ontologies#hasPose">
+        <rdfs:subPropertyOf rdf:resource="expe_ontologies#PointableRelation"/>
+        <rdfs:subPropertyOf rdf:resource="expe_ontologies#VisualRelation"/>
+        <rdfs:domain rdf:resource="expe_ontologies#Entity"/>
+    </owl:ObjectProperty>
+
+
+
+    <!-- expe_ontologies#hasShape -->
+
+    <owl:ObjectProperty rdf:about="expe_ontologies#hasShape">
+        <rdfs:subPropertyOf rdf:resource="expe_ontologies#VisualRelation"/>
+        <rdfs:domain rdf:resource="expe_ontologies#Object"/>
+        <rdfs:range rdf:resource="expe_ontologies#Shape"/>
+    </owl:ObjectProperty>
+
+
+
+    <!-- expe_ontologies#hasSize -->
+
+    <owl:ObjectProperty rdf:about="expe_ontologies#hasSize">
+        <rdfs:subPropertyOf rdf:resource="expe_ontologies#VisualRelation"/>
+        <rdfs:domain rdf:resource="expe_ontologies#Object"/>
+        <rdfs:range rdf:resource="expe_ontologies#Size"/>
+    </owl:ObjectProperty>
+
+
+
+    <!-- expe_ontologies#hasVolume -->
+
+    <owl:ObjectProperty rdf:about="expe_ontologies#hasVolume">
+        <rdfs:subPropertyOf rdf:resource="expe_ontologies#VisualRelation"/>
+    </owl:ObjectProperty>
+
+
+
+    <!-- expe_ontologies#inFrontOf -->
+
+    <owl:ObjectProperty rdf:about="expe_ontologies#inFrontOf">
+        <rdfs:subPropertyOf rdf:resource="expe_ontologies#GeometricalRelation"/>
+        <rdfs:domain rdf:resource="expe_ontologies#Entity"/>
+        <rdfs:range rdf:resource="expe_ontologies#Entity"/>
+        <rdfs:label xml:lang="fr">devant</rdfs:label>
+        <rdfs:label xml:lang="en">in front of</rdfs:label>
+    </owl:ObjectProperty>
+
+
+
+    <!-- expe_ontologies#isConnectedTo -->
+
+    <owl:ObjectProperty rdf:about="expe_ontologies#isConnectedTo">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+    </owl:ObjectProperty>
+
+
+
+    <!-- expe_ontologies#isHeldBy -->
+
+    <owl:ObjectProperty rdf:about="expe_ontologies#isHeldBy">
+        <rdfs:subPropertyOf rdf:resource="expe_ontologies#GeometricalRelation"/>
+        <owl:inverseOf rdf:resource="expe_ontologies#isHolding"/>
+        <rdfs:domain rdf:resource="expe_ontologies#Pickable"/>
+        <rdfs:range rdf:resource="expe_ontologies#Agent"/>
+    </owl:ObjectProperty>
+
+
+
+    <!-- expe_ontologies#isHolding -->
+
+    <owl:ObjectProperty rdf:about="expe_ontologies#isHolding">
+        <rdfs:subPropertyOf rdf:resource="expe_ontologies#GeometricalRelation"/>
+        <rdfs:domain rdf:resource="expe_ontologies#Agent"/>
+        <rdfs:range rdf:resource="expe_ontologies#Pickable"/>
+    </owl:ObjectProperty>
+
+
+
+    <!-- expe_ontologies#isIn -->
+
+    <owl:ObjectProperty rdf:about="expe_ontologies#isIn">
+        <rdfs:subPropertyOf rdf:resource="expe_ontologies#GeometricalRelation"/>
+        <rdfs:domain rdf:resource="expe_ontologies#Entity"/>
+        <rdfs:label xml:lang="fr">dans</rdfs:label>
+        <rdfs:label xml:lang="en">in</rdfs:label>
+    </owl:ObjectProperty>
+
+
+
+    <!-- expe_ontologies#isInContainer -->
+
+    <owl:ObjectProperty rdf:about="expe_ontologies#isInContainer">
+        <rdfs:subPropertyOf rdf:resource="expe_ontologies#isIn"/>
+        <rdfs:domain rdf:resource="expe_ontologies#Object"/>
+        <rdfs:range rdf:resource="expe_ontologies#Container"/>
+        <rdfs:label xml:lang="fr">dans</rdfs:label>
+        <rdfs:label xml:lang="en">in</rdfs:label>
+    </owl:ObjectProperty>
+
+
+
+    <!-- expe_ontologies#isInLeftHandOf -->
+
+    <owl:ObjectProperty rdf:about="expe_ontologies#isInLeftHandOf">
+        <rdfs:subPropertyOf rdf:resource="expe_ontologies#isHeldBy"/>
+        <rdfs:domain rdf:resource="expe_ontologies#Pickable"/>
+        <rdfs:range rdf:resource="expe_ontologies#Agent"/>
+    </owl:ObjectProperty>
+
+
+
+    <!-- expe_ontologies#isInRightHandOf -->
+
+    <owl:ObjectProperty rdf:about="expe_ontologies#isInRightHandOf">
+        <rdfs:subPropertyOf rdf:resource="expe_ontologies#isHeldBy"/>
+        <rdfs:domain rdf:resource="expe_ontologies#Pickable"/>
+        <rdfs:range rdf:resource="expe_ontologies#Agent"/>
+    </owl:ObjectProperty>
+
+
+
+    <!-- expe_ontologies#isInRoom -->
+
+    <owl:ObjectProperty rdf:about="expe_ontologies#isInRoom">
+        <rdfs:subPropertyOf rdf:resource="expe_ontologies#isIn"/>
+        <owl:inverseOf rdf:resource="expe_ontologies#roomHasIn"/>
+        <rdfs:range rdf:resource="expe_ontologies#Room"/>
+    </owl:ObjectProperty>
+
+
+
+    <!-- expe_ontologies#isOnTopOf -->
+
+    <owl:ObjectProperty rdf:about="expe_ontologies#isOnTopOf">
+        <rdfs:subPropertyOf rdf:resource="expe_ontologies#GeometricalRelation"/>
+        <owl:inverseOf rdf:resource="expe_ontologies#isUnder"/>
+        <rdfs:domain rdf:resource="expe_ontologies#Object"/>
+        <rdfs:range rdf:resource="expe_ontologies#Support"/>
+    </owl:ObjectProperty>
+
+
+
+    <!-- expe_ontologies#isReachableBy -->
+
+    <owl:ObjectProperty rdf:about="expe_ontologies#isReachableBy">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdfs:domain rdf:resource="expe_ontologies#Object"/>
+        <rdfs:range rdf:resource="expe_ontologies#Agent"/>
+    </owl:ObjectProperty>
+
+
+
+    <!-- expe_ontologies#isSeeing -->
+
+    <owl:ObjectProperty rdf:about="expe_ontologies#isSeeing">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <owl:inverseOf rdf:resource="expe_ontologies#isSeenBy"/>
+        <rdfs:domain rdf:resource="expe_ontologies#Agent"/>
+        <rdfs:range rdf:resource="expe_ontologies#Object"/>
+    </owl:ObjectProperty>
+
+
+
+    <!-- expe_ontologies#isSeenBy -->
+
+    <owl:ObjectProperty rdf:about="expe_ontologies#isSeenBy">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdfs:domain rdf:resource="expe_ontologies#Object"/>
+        <rdfs:range rdf:resource="expe_ontologies#Agent"/>
+    </owl:ObjectProperty>
+
+
+
+    <!-- expe_ontologies#isUnder -->
+
+    <owl:ObjectProperty rdf:about="expe_ontologies#isUnder">
+        <rdfs:subPropertyOf rdf:resource="expe_ontologies#GeometricalRelation"/>
+        <rdfs:domain rdf:resource="expe_ontologies#Support"/>
+        <rdfs:range rdf:resource="expe_ontologies#Object"/>
+    </owl:ObjectProperty>
+
+
+
+    <!-- expe_ontologies#isVisibleBy -->
+
+    <owl:ObjectProperty rdf:about="expe_ontologies#isVisibleBy">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdfs:range rdf:resource="expe_ontologies#Agent"/>
+    </owl:ObjectProperty>
+
+
+
+    <!-- expe_ontologies#roomHasIn -->
+
+    <owl:ObjectProperty rdf:about="expe_ontologies#roomHasIn">
+        <rdfs:subPropertyOf rdf:resource="expe_ontologies#hasIn"/>
+        <rdfs:domain rdf:resource="expe_ontologies#Room"/>
+        <rdfs:range rdf:resource="expe_ontologies#Entity"/>
+    </owl:ObjectProperty>
+
+
+
+
+
+    <!--
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+
+
+    <!-- expe_ontologies#topDataProperty -->
+
+    <owl:DatatypeProperty rdf:about="expe_ontologies#topDataProperty">
+    </owl:DatatypeProperty>
+
+
+
+
+    <!-- expe_ontologies#hasVolume -->
+
+    <owl:DatatypeProperty rdf:about="expe_ontologies#hasVolume">
+        <rdfs:subPropertyOf rdf:resource="expe_ontologies#topDataProperty"/>
+    </owl:DatatypeProperty>
+
+
+
+
+    <!-- expe_ontologies#hasVolume -->
+
+    <owl:DatatypeProperty rdf:about="expe_ontologies#hasWeight">
+        <rdfs:subPropertyOf rdf:resource="expe_ontologies#topDataProperty"/>
+    </owl:DatatypeProperty>
+
+
+
+    <!-- expe_ontologies#hasMesh -->
+
+    <owl:DatatypeProperty rdf:about="expe_ontologies#hasMesh">
+        <rdfs:subPropertyOf rdf:resource="expe_ontologies#DisplayableRelation"/>
+        <rdfs:domain rdf:resource="expe_ontologies#Object"/>
+    </owl:DatatypeProperty>
+
+
+
+    <!-- expe_ontologies#hasText -->
+
+    <owl:DatatypeProperty rdf:about="expe_ontologies#hasText">
+        <rdfs:subPropertyOf rdf:resource="expe_ontologies#DisplayableRelation"/>
+        <rdfs:subPropertyOf rdf:resource="expe_ontologies#VisualRelation"/>
+        <rdfs:domain rdf:resource="expe_ontologies#Object"/>
+        <rdfs:label xml:lang="en">with the number</rdfs:label>
+        <rdfs:label xml:lang="fr">avec le chiffre</rdfs:label>
+    </owl:DatatypeProperty>
+
+
+
+    <!--
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+
+
+
+    <!-- expe_ontologies#Agent -->
+
+    <owl:Class rdf:about="expe_ontologies#Agent">
+        <rdfs:subClassOf rdf:resource="expe_ontologies#Entity"/>
+        <owl:disjointWith rdf:resource="expe_ontologies#Object"/>
+        <rdfs:label xml:lang="en">agent</rdfs:label>
+        <rdfs:label xml:lang="fr">agent</rdfs:label>
+    </owl:Class>
+
+
+
+    <!-- expe_ontologies#Area -->
+
+    <owl:Class rdf:about="expe_ontologies#Area">
+        <rdfs:label xml:lang="en">area</rdfs:label>
+        <rdfs:label xml:lang="fr">zone</rdfs:label>
+    </owl:Class>
+
+
+
+    <!-- expe_ontologies#Bed -->
+
+    <owl:Class rdf:about="expe_ontologies#Bed">
+        <rdfs:subClassOf rdf:resource="expe_ontologies#Furniture"/>
+        <rdfs:label xml:lang="en">bed</rdfs:label>
+        <rdfs:label xml:lang="fr">lit</rdfs:label>
+    </owl:Class>
+
+
+
+    <!-- expe_ontologies#Book -->
+
+    <owl:Class rdf:about="expe_ontologies#Book">
+        <rdfs:subClassOf rdf:resource="expe_ontologies#Pickable"/>
+        <rdfs:label xml:lang="en">book</rdfs:label>
+        <rdfs:label xml:lang="fr">livre</rdfs:label>
+    </owl:Class>
+
+
+
+    <!-- expe_ontologies#Box -->
+
+    <owl:Class rdf:about="expe_ontologies#Box">
+        <rdfs:subClassOf rdf:resource="expe_ontologies#Container"/>
+	<rdfs:subClassOf rdf:resource="expe_ontologies#Pickable"/>
+	<rdfs:subClassOf rdf:resource="expe_ontologies#Support"/>
+        <rdfs:label xml:lang="fr">boite</rdfs:label>
+        <rdfs:label xml:lang="en">box</rdfs:label>
+    </owl:Class>
+
+
+
+    <!-- expe_ontologies#Can -->
+
+    <owl:Class rdf:about="expe_ontologies#Can">
+        <rdfs:subClassOf rdf:resource="expe_ontologies#LiquidContainer"/>
+        <rdfs:subClassOf rdf:resource="expe_ontologies#Pickable"/>
+        <rdfs:label xml:lang="en">can</rdfs:label>
+        <rdfs:label xml:lang="fr">canette</rdfs:label>
+    </owl:Class>
+
+    <!-- expe_ontologies#Bottle -->
+
+    <owl:Class rdf:about="expe_ontologies#Bottle">
+        <rdfs:subClassOf rdf:resource="expe_ontologies#LiquidContainer"/>
+        <rdfs:subClassOf rdf:resource="expe_ontologies#Pickable"/>
+        <rdfs:label xml:lang="en">bottle</rdfs:label>
+        <rdfs:label xml:lang="fr">bouteille</rdfs:label>
+    </owl:Class>
+
+
+    <!-- expe_ontologies#Ball -->
+
+    <owl:Class rdf:about="expe_ontologies#Ball">
+        <rdfs:subClassOf rdf:resource="expe_ontologies#Object"/>
+        <rdfs:subClassOf rdf:resource="expe_ontologies#Pickable"/>
+        <rdfs:label xml:lang="en">ball</rdfs:label>
+        <rdfs:label xml:lang="fr">balle</rdfs:label>
+    </owl:Class>
+
+
+
+    <!-- expe_ontologies#Chair -->
+
+    <owl:Class rdf:about="expe_ontologies#Chair">
+        <rdfs:subClassOf rdf:resource="expe_ontologies#Furniture"/>
+        <rdfs:label xml:lang="en">chair</rdfs:label>
+        <rdfs:label xml:lang="fr">chaise</rdfs:label>
+    </owl:Class>
+
+    <!-- expe_ontologies#Couch -->
+
+    <owl:Class rdf:about="expe_ontologies#Couch">
+        <rdfs:subClassOf rdf:resource="expe_ontologies#Furniture"/>
+        <rdfs:label xml:lang="en">couch</rdfs:label>
+        <rdfs:label xml:lang="fr">canapé</rdfs:label>
+    </owl:Class>
+
+
+    <!-- expe_ontologies#CoatHanger -->
+
+    <owl:Class rdf:about="expe_ontologies#CoatHanger">
+        <rdfs:subClassOf rdf:resource="expe_ontologies#Furniture"/>
+        <rdfs:label xml:lang="en">coat hanger</rdfs:label>
+        <rdfs:label xml:lang="fr">porte manteau</rdfs:label>
+    </owl:Class>
+
+
+
+    <!-- expe_ontologies#Color -->
+
+    <owl:Class rdf:about="expe_ontologies#Color">
+        <rdfs:label xml:lang="en">color</rdfs:label>
+        <rdfs:label xml:lang="fr">couleur</rdfs:label>
+    </owl:Class>
+
+
+
+    <!-- expe_ontologies#Container -->
+
+    <owl:Class rdf:about="expe_ontologies#Container">
+        <rdfs:subClassOf rdf:resource="expe_ontologies#Object"/>
+        <rdfs:label xml:lang="en">container</rdfs:label>
+        <rdfs:label xml:lang="fr">conteneur</rdfs:label>
+    </owl:Class>
+
+
+
+    <!-- expe_ontologies#Cube -->
+
+    <owl:Class rdf:about="expe_ontologies#Cube">
+        <rdfs:subClassOf rdf:resource="expe_ontologies#Pickable"/>
+        <rdfs:subClassOf rdf:resource="expe_ontologies#Support"/>
+        <owl:disjointWith rdf:resource="expe_ontologies#Mug"/>
+        <rdfs:label xml:lang="en">cube</rdfs:label>
+        <rdfs:label xml:lang="fr">cube</rdfs:label>
+    </owl:Class>
+
+
+
+    <!-- expe_ontologies#Cup -->
+
+    <owl:Class rdf:about="expe_ontologies#Cup">
+        <rdfs:subClassOf rdf:resource="expe_ontologies#Pickable"/>
+        <rdfs:subClassOf rdf:resource="expe_ontologies#Container"/>
+        <rdfs:label xml:lang="en">cup</rdfs:label>
+        <rdfs:label xml:lang="fr">tasse</rdfs:label>
+    </owl:Class>
+
+
+
+    <!-- expe_ontologies#Drawer -->
+
+    <owl:Class rdf:about="expe_ontologies#Drawer">
+        <rdfs:subClassOf rdf:resource="expe_ontologies#Container"/>
+        <rdfs:subClassOf rdf:resource="expe_ontologies#Furniture"/>
+        <rdfs:subClassOf rdf:resource="expe_ontologies#Support"/>
+        <rdfs:label xml:lang="en">drawer</rdfs:label>
+        <rdfs:label xml:lang="fr">tiroir</rdfs:label>
+    </owl:Class>
+
+
+
+    <!-- expe_ontologies#Entity -->
+
+    <owl:Class rdf:about="expe_ontologies#Entity"/>
+
+
+
+    <!-- expe_ontologies#Fan -->
+
+    <owl:Class rdf:about="expe_ontologies#Fan">
+        <rdfs:subClassOf rdf:resource="expe_ontologies#Furniture"/>
+        <rdfs:label xml:lang="en">fan</rdfs:label>
+        <rdfs:label xml:lang="fr">ventilateur</rdfs:label>
+    </owl:Class>
+
+
+
+    <!-- expe_ontologies#Furniture -->
+
+    <owl:Class rdf:about="expe_ontologies#Furniture">
+        <rdfs:subClassOf rdf:resource="expe_ontologies#Object"/>
+        <rdfs:label xml:lang="en">furniture</rdfs:label>
+        <rdfs:label xml:lang="fr">meuble</rdfs:label>
+    </owl:Class>
+
+
+
+    <!-- expe_ontologies#Human -->
+
+    <owl:Class rdf:about="expe_ontologies#Human">
+        <rdfs:subClassOf rdf:resource="expe_ontologies#Agent"/>
+        <owl:disjointWith rdf:resource="expe_ontologies#Robot"/>
+        <rdfs:label xml:lang="fr">humain</rdfs:label>
+        <rdfs:label xml:lang="en">human</rdfs:label>
+    </owl:Class>
+
+
+    <!-- expe_ontologies#Lamp -->
+
+    <owl:Class rdf:about="expe_ontologies#Lamp">
+        <rdfs:subClassOf rdf:resource="expe_ontologies#Furniture"/>
+        <rdfs:label xml:lang="fr">lampe</rdfs:label>
+        <rdfs:label xml:lang="en">lamp</rdfs:label>
+    </owl:Class>
+
+
+
+    <!-- expe_ontologies#LiquidContainer -->
+
+    <owl:Class rdf:about="expe_ontologies#LiquidContainer">
+        <rdfs:subClassOf rdf:resource="expe_ontologies#Container"/>
+    </owl:Class>
+
+    <!-- expe_ontologies#FoodContainer -->
+
+    <owl:Class rdf:about="expe_ontologies#FoodContainer">
+        <rdfs:subClassOf rdf:resource="expe_ontologies#Container"/>
+    </owl:Class>
+
+
+    <!-- expe_ontologies#Mug -->
+
+    <owl:Class rdf:about="expe_ontologies#Mug">
+        <rdfs:subClassOf rdf:resource="expe_ontologies#LiquidContainer"/>
+        <rdfs:subClassOf rdf:resource="expe_ontologies#Pickable"/>
+        <rdfs:label xml:lang="en">mug</rdfs:label>
+        <rdfs:label xml:lang="fr">tasse</rdfs:label>
+    </owl:Class>
+
+
+
+    <!-- expe_ontologies#Object -->
+
+    <owl:Class rdf:about="expe_ontologies#Object">
+        <rdfs:subClassOf rdf:resource="expe_ontologies#Entity"/>
+        <rdfs:label xml:lang="en">object</rdfs:label>
+        <rdfs:label xml:lang="fr">objet</rdfs:label>
+    </owl:Class>
+
+
+
+    <!-- expe_ontologies#Pickable -->
+
+    <owl:Class rdf:about="expe_ontologies#Pickable">
+        <rdfs:subClassOf rdf:resource="expe_ontologies#Object"/>
+    </owl:Class>
+
+
+    <!-- expe_ontologies#Pen -->
+    <owl:Class rdf:about="expe_ontologies#Pen">
+        <rdfs:subClassOf rdf:resource="expe_ontologies#Pickable"/>
+        <rdfs:label xml:lang="en">pen</rdfs:label>
+        <rdfs:label xml:lang="fr">stylo</rdfs:label>
+    </owl:Class>
+
+
+
+
+    <!-- expe_ontologies#Robot -->
+
+    <owl:Class rdf:about="expe_ontologies#Robot">
+        <rdfs:subClassOf rdf:resource="expe_ontologies#Agent"/>
+        <rdfs:label xml:lang="en">robot</rdfs:label>
+        <rdfs:label xml:lang="fr">robot</rdfs:label>
+    </owl:Class>
+
+
+
+    <!-- expe_ontologies#Room -->
+
+    <owl:Class rdf:about="expe_ontologies#Room">
+        <rdfs:subClassOf rdf:resource="expe_ontologies#Area"/>
+        <rdfs:label xml:lang="en">room</rdfs:label>
+        <rdfs:label xml:lang="fr">salle</rdfs:label>
+    </owl:Class>
+
+
+
+    <!-- expe_ontologies#Shape -->
+
+    <owl:Class rdf:about="expe_ontologies#Shape">
+        <rdfs:label xml:lang="fr">forme</rdfs:label>
+        <rdfs:label xml:lang="en">shape</rdfs:label>
+    </owl:Class>
+
+
+
+    <!-- expe_ontologies#Shelf -->
+
+    <owl:Class rdf:about="expe_ontologies#Shelf">
+        <rdfs:subClassOf rdf:resource="expe_ontologies#Container"/>
+	<rdfs:subClassOf rdf:resource="expe_ontologies#Furniture"/>
+	<rdfs:subClassOf rdf:resource="expe_ontologies#Support"/>
+        <rdfs:label xml:lang="fr">etagere</rdfs:label>
+        <rdfs:label xml:lang="en">shelf</rdfs:label>
+    </owl:Class>
+
+
+
+    <!-- expe_ontologies#Size -->
+
+    <owl:Class rdf:about="expe_ontologies#Size">
+    </owl:Class>
+
+
+
+    <!-- expe_ontologies#Spot -->
+
+    <owl:Class rdf:about="expe_ontologies#Spot">
+        <rdfs:subClassOf rdf:resource="expe_ontologies#Area"/>
+        <rdfs:label xml:lang="fr">endroit</rdfs:label>
+        <rdfs:label xml:lang="en">spot</rdfs:label>
+    </owl:Class>
+
+
+
+    <!-- expe_ontologies#Support -->
+
+    <owl:Class rdf:about="expe_ontologies#Support">
+        <rdfs:subClassOf rdf:resource="expe_ontologies#Object"/>
+        <rdfs:label xml:lang="en">support</rdfs:label>
+        <rdfs:label xml:lang="fr">support</rdfs:label>
+    </owl:Class>
+
+
+
+    <!-- expe_ontologies#TV -->
+
+    <owl:Class rdf:about="expe_ontologies#TV">
+        <rdfs:subClassOf rdf:resource="expe_ontologies#Furniture"/>
+        <rdfs:label xml:lang="fr">tele</rdfs:label>
+        <rdfs:label xml:lang="en">tv</rdfs:label>
+    </owl:Class>
+
+
+
+    <!-- expe_ontologies#Table -->
+
+    <owl:Class rdf:about="expe_ontologies#Table">
+        <rdfs:subClassOf rdf:resource="expe_ontologies#Furniture"/>
+        <rdfs:subClassOf rdf:resource="expe_ontologies#Support"/>
+        <rdfs:label xml:lang="en">table</rdfs:label>
+        <rdfs:label xml:lang="fr">table</rdfs:label>
+    </owl:Class>
+
+
+
+    <!--
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+
+
+
+    <!-- expe_ontologies#black -->
+
+    <owl:NamedIndividual rdf:about="expe_ontologies#black">
+        <rdf:type rdf:resource="expe_ontologies#Color"/>
+        <rdfs:label xml:lang="en">black</rdfs:label>
+        <rdfs:label xml:lang="fr">noir</rdfs:label>
+    </owl:NamedIndividual>
+
+
+
+    <!-- expe_ontologies#blue -->
+
+    <owl:NamedIndividual rdf:about="expe_ontologies#blue">
+        <rdf:type rdf:resource="expe_ontologies#Color"/>
+        <rdfs:label xml:lang="en">blue</rdfs:label>
+        <rdfs:label xml:lang="fr">bleu</rdfs:label>
+    </owl:NamedIndividual>
+
+
+
+    <!-- expe_ontologies#bob -->
+
+    <owl:NamedIndividual rdf:about="expe_ontologies#bob">
+        <rdf:type rdf:resource="expe_ontologies#Human"/>
+        <rdfs:label xml:lang="en">bob</rdfs:label>
+        <rdfs:label xml:lang="fr">bob</rdfs:label>
+    </owl:NamedIndividual>
+
+
+
+    <!-- expe_ontologies#box -->
+
+    <owl:NamedIndividual rdf:about="expe_ontologies#box">
+        <rdf:type rdf:resource="expe_ontologies#Shape"/>
+        <rdfs:label xml:lang="en">rectangular</rdfs:label>
+        <rdfs:label xml:lang="fr">rectangulaire</rdfs:label>
+    </owl:NamedIndividual>
+
+
+
+    <!-- expe_ontologies#cyan -->
+
+    <owl:NamedIndividual rdf:about="expe_ontologies#cyan">
+        <rdf:type rdf:resource="expe_ontologies#Color"/>
+        <rdfs:label xml:lang="en">light blue</rdfs:label>
+        <rdfs:label xml:lang="fr">bleu clair</rdfs:label>
+    </owl:NamedIndividual>
+
+
+
+    <!-- expe_ontologies#green -->
+
+    <owl:NamedIndividual rdf:about="expe_ontologies#green">
+        <rdf:type rdf:resource="expe_ontologies#Color"/>
+        <rdfs:label xml:lang="en">green</rdfs:label>
+        <rdfs:label xml:lang="fr">vert</rdfs:label>
+    </owl:NamedIndividual>
+
+
+
+    <!-- expe_ontologies#grey -->
+
+    <owl:NamedIndividual rdf:about="expe_ontologies#grey">
+        <rdf:type rdf:resource="expe_ontologies#Color"/>
+        <rdfs:label xml:lang="en">grey</rdfs:label>
+        <rdfs:label xml:lang="fr">gris</rdfs:label>
+    </owl:NamedIndividual>
+
+
+
+    <!-- expe_ontologies#large -->
+
+    <owl:NamedIndividual rdf:about="expe_ontologies#large">
+        <rdf:type rdf:resource="expe_ontologies#Size"/>
+        <rdfs:label xml:lang="en">large</rdfs:label>
+        <rdfs:label xml:lang="fr">grand</rdfs:label>
+    </owl:NamedIndividual>
+
+
+
+    <!-- expe_ontologies#magenta -->
+
+    <owl:NamedIndividual rdf:about="expe_ontologies#magenta">
+        <rdf:type rdf:resource="expe_ontologies#Color"/>
+        <rdfs:label xml:lang="en">pink</rdfs:label>
+        <rdfs:label xml:lang="fr">rose</rdfs:label>
+    </owl:NamedIndividual>
+
+
+
+    <!-- expe_ontologies#medium -->
+
+    <owl:NamedIndividual rdf:about="expe_ontologies#medium">
+        <rdf:type rdf:resource="expe_ontologies#Size"/>
+    </owl:NamedIndividual>
+
+
+    <!-- expe_ontologies#orange -->
+
+    <owl:NamedIndividual rdf:about="expe_ontologies#orange">
+        <rdf:type rdf:resource="expe_ontologies#Color"/>
+        <rdfs:label xml:lang="en">orange</rdfs:label>
+        <rdfs:label xml:lang="fr">orange</rdfs:label>
+    </owl:NamedIndividual>
+
+
+
+    <!-- expe_ontologies#pink -->
+
+    <owl:NamedIndividual rdf:about="expe_ontologies#pink">
+        <rdf:type rdf:resource="expe_ontologies#Color"/>
+        <rdfs:label xml:lang="en">pink</rdfs:label>
+        <rdfs:label xml:lang="fr">rose</rdfs:label>
+    </owl:NamedIndividual>
+
+
+
+    <!-- expe_ontologies#purple -->
+
+    <owl:NamedIndividual rdf:about="expe_ontologies#purple">
+        <rdf:type rdf:resource="expe_ontologies#Color"/>
+        <rdfs:label xml:lang="en">purple</rdfs:label>
+        <rdfs:label xml:lang="fr">violet</rdfs:label>
+    </owl:NamedIndividual>
+
+
+
+    <!-- expe_ontologies#red -->
+
+    <owl:NamedIndividual rdf:about="expe_ontologies#red">
+        <rdf:type rdf:resource="expe_ontologies#Color"/>
+        <rdfs:label xml:lang="en">red</rdfs:label>
+        <rdfs:label xml:lang="fr">rouge</rdfs:label>
+    </owl:NamedIndividual>
+
+    <!-- expe_ontologies#beige -->
+
+    <owl:NamedIndividual rdf:about="expe_ontologies#beige">
+        <rdf:type rdf:resource="expe_ontologies#Color"/>
+        <rdfs:label xml:lang="en">beige</rdfs:label>
+        <rdfs:label xml:lang="fr">beige</rdfs:label>
+    </owl:NamedIndividual>
+
+
+
+    <!-- expe_ontologies#round -->
+
+    <owl:NamedIndividual rdf:about="expe_ontologies#round">
+        <rdf:type rdf:resource="expe_ontologies#Shape"/>
+        <rdfs:label xml:lang="en">circular</rdfs:label>
+        <rdfs:label xml:lang="fr">circulaire</rdfs:label>
+    </owl:NamedIndividual>
+
+
+
+    <!-- expe_ontologies#small -->
+
+    <owl:NamedIndividual rdf:about="expe_ontologies#small">
+        <rdf:type rdf:resource="expe_ontologies#Size"/>
+        <rdfs:label xml:lang="en">small</rdfs:label>
+        <rdfs:label xml:lang="fr">petit</rdfs:label>
+    </owl:NamedIndividual>
+
+
+
+    <!-- expe_ontologies#white -->
+
+    <owl:NamedIndividual rdf:about="expe_ontologies#white">
+        <rdf:type rdf:resource="expe_ontologies#Color"/>
+        <rdfs:label xml:lang="en">white</rdfs:label>
+        <rdfs:label xml:lang="fr">blanc</rdfs:label>
+    </owl:NamedIndividual>
+
+
+
+    <!-- expe_ontologies#wooden -->
+
+    <owl:NamedIndividual rdf:about="expe_ontologies#wooden">
+        <rdf:type rdf:resource="expe_ontologies#Color"/>
+        <rdfs:label xml:lang="en">wooden</rdfs:label>
+        <rdfs:label xml:lang="fr">couleur bois</rdfs:label>
+    </owl:NamedIndividual>
+
+
+    <!-- expe_ontologies#yellow -->
+
+    <owl:NamedIndividual rdf:about="expe_ontologies#yellow">
+        <rdf:type rdf:resource="expe_ontologies#Color"/>
+        <rdfs:label xml:lang="en">yellow</rdfs:label>
+        <rdfs:label xml:lang="fr">jaune</rdfs:label>
+    </owl:NamedIndividual>
+
+
+
+    <!--
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // General axioms
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="expe_ontologies#Area"/>
+            <rdf:Description rdf:about="expe_ontologies#Color"/>
+            <rdf:Description rdf:about="expe_ontologies#Entity"/>
+            <rdf:Description rdf:about="expe_ontologies#Shape"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="expe_ontologies#Box"/>
+            <rdf:Description rdf:about="expe_ontologies#Cube"/>
+            <rdf:Description rdf:about="expe_ontologies#Mug"/>
+            <rdf:Description rdf:about="expe_ontologies#Can"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="expe_ontologies#Box"/>
+            <rdf:Description rdf:about="expe_ontologies#Drawer"/>
+            <rdf:Description rdf:about="expe_ontologies#Mug"/>
+            <rdf:Description rdf:about="expe_ontologies#Can"/>
+            <rdf:Description rdf:about="expe_ontologies#Shelf"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="expe_ontologies#Cube"/>
+            <rdf:Description rdf:about="expe_ontologies#Drawer"/>
+            <rdf:Description rdf:about="expe_ontologies#Table"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="expe_ontologies#Drawer"/>
+            <rdf:Description rdf:about="expe_ontologies#Fan"/>
+            <rdf:Description rdf:about="expe_ontologies#Shelf"/>
+            <rdf:Description rdf:about="expe_ontologies#TV"/>
+            <rdf:Description rdf:about="expe_ontologies#Table"/>
+        </owl:members>
+    </rdf:Description>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.2.8.20170104-2310) https://github.com/owlcs/owlapi -->
