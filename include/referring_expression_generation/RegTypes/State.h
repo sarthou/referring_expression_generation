@@ -15,16 +15,17 @@ typedef std::shared_ptr<State> StatePtr;
 class State
 {
 public:
-  State(StatePtr ancestor, Triplet triplet) : ancestor(ancestor)
+  State(StatePtr ancestor, TripletPtr triplet) : ancestor(ancestor)
   {
     triplets.push_back(triplet);
     initial_state = false;
     if(ancestor)
       hash_set_ = ancestor->hash_set_;
-    hash_set_.insert(triplet.hash_value);
+    if(triplet)
+      hash_set_.insert(triplet->hash_value);
   }
 
-  State(StatePtr ancestor, const std::vector<Triplet>& triplets) : ancestor(ancestor), triplets(triplets)
+  State(StatePtr ancestor, const std::vector<TripletPtr>& triplets) : ancestor(ancestor), triplets(triplets)
   {
     initial_state = false;
     if(ancestor)
@@ -32,12 +33,12 @@ public:
     if(triplets.size())
     {
       for(auto& triplet : triplets)
-        hash_set_.insert(triplet.hash_value);
+        hash_set_.insert(triplet->hash_value);
     }
   }
 
   StatePtr ancestor;
-  std::vector<Triplet> triplets;
+  std::vector<TripletPtr> triplets;
   bool initial_state;
 
   bool operator==(const State& other) const

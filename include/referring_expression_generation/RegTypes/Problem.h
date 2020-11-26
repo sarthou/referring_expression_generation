@@ -24,8 +24,8 @@ typedef std::priority_queue<NodePtr, std::vector<NodePtr>, PathCostCompare_t> No
 
 struct IndividualDifferences_t
 {
-    std::vector<Triplet> hard_differences;
-    std::vector<Triplet> soft_differences;
+    std::vector<TripletPtr> hard_differences;
+    std::vector<TripletPtr> soft_differences;
 };
 typedef std::shared_ptr<IndividualDifferences_t> IndividualDifferencesPtr;
 
@@ -64,7 +64,7 @@ struct Solution_t
 
   bool success;
   std::vector<std::string> sparql;
-  std::vector<Triplet> triplets;
+  std::vector<TripletPtr> triplets;
   std::vector<std::string> ambiguous;
 };
 

@@ -55,11 +55,11 @@ private:
   IndividualDifferencesPtr getIndividualsDifferences(const std::string& indivA, const std::string& indivB);
   int getH(const NodePtr& node);
 
-  std::string toQuery(const Triplet& triplet);
+  std::string toQuery(const TripletPtr& triplet);
 
-  bool existInNode(NodePtr node, const Triplet& triplet);
-  bool testExistInNode(NodePtr node, const std::vector<Triplet>& triplets);
-  bool testExistInNode(NodePtr node, const Triplet& triplet);
+  bool existInNode(NodePtr node, const TripletPtr& triplet);
+  bool testExistInNode(NodePtr node, const std::vector<TripletPtr>& triplets);
+  bool testExistInNode(NodePtr node, const TripletPtr& triplet);
   bool existInAction(const Action& action, const std::vector<Action>& actions);
 
   bool existInExplored(StatePtr state);

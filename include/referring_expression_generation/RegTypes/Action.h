@@ -10,13 +10,13 @@ namespace reg {
 class Action
 {
 public:
-  Action(const std::vector<Triplet>& triplets, int path_cost)
+  Action(const std::vector<TripletPtr>& triplets, int path_cost)
   {
     this->triplets = triplets;
     this->path_cost = path_cost;
   }
 
-  std::vector<Triplet> triplets;
+  std::vector<TripletPtr> triplets;
   int path_cost;
 
   bool operator==(const Action& other) const
@@ -28,7 +28,7 @@ public:
     {
       bool found = false;
       for(auto& other_triplet : other.triplets)
-        if(triplet.equals(other_triplet))
+        if(triplet->equals(other_triplet))
         {
           found = true;
           break;
@@ -43,7 +43,7 @@ public:
   {
     std::string res;
     for(auto& triplet : triplets)
-      res += triplet.toString() + ", ";
+      res += triplet->toString() + ", ";
     res += std::to_string(path_cost);
     return res;
   }

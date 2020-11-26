@@ -115,17 +115,17 @@ NodePtr Reg::createInitialState(const std::string& individual, const std::vector
 {
   std::string individual_variable = variables_.getVar(individual);
 
-  std::vector<Triplet> init_triplets;
+  std::vector<TripletPtr> init_triplets;
   std::vector<std::string> query;
   for(auto t : base_triplets)
   {
-    Triplet triplet(
+    TripletPtr triplet = std::make_shared<Triplet>(
       (t.from == individual_variable) ? individual : t.from,
       t.relation,
       (t.on == individual_variable) ? individual : t.on
     );
     init_triplets.push_back(triplet);
-    query.push_back(toQuery(t));
+    query.push_back(toQuery(triplet));
   }
 
   NodePtr init_node = std::make_shared<Node>(nullptr, init_triplets);
@@ -192,7 +192,7 @@ bool Reg::getNamingActions(NodePtr node, std::vector<Action>& actions)
     {
       for(auto& usable_classe: usable_classes)
       {
-        local_actions.push_back(Action({Triplet(unnamed_individual, "isA", usable_classe)}, 1));
+        local_actions.push_back(Action({std::make_shared<Triplet>(unnamed_individual, "isA", usable_classe)}, 1));
       }
     }
     else
@@ -204,7 +204,7 @@ bool Reg::getNamingActions(NodePtr node, std::vector<Action>& actions)
         for(auto& action : tmp_actions)
         {
           local_actions.push_back(action);
-          local_actions.back().triplets.push_back(Triplet(unnamed_individual, "isA", usable_classe));
+          local_actions.back().triplets.push_back(std::make_shared<Triplet>(unnamed_individual, "isA", usable_classe));
           local_actions.back().path_cost += 1;
         }
       }
@@ -237,13 +237,13 @@ void Reg::getDiffActions(NodePtr node, std::vector<Action>& actions)
         if(existInNode(node, d) == false)
         {
           Action action({d}, 1);
-          if(isUsableProperty(d.relation))
+          if(isUsableProperty(d->relation))
             if(!existInAction(action, actions)){
               actions.push_back(action);
               StatsManager::getInstance().simple_relation_created++;
             }
             else
-              std::cout << d.toString() << " existInAction" << std::endl;
+              std::cout << d->toString() << " existInAction" << std::endl;
         }
         else
           std::cout << "existInNode" << std::endl;
@@ -254,13 +254,13 @@ void Reg::getDiffActions(NodePtr node, std::vector<Action>& actions)
         if(existInNode(node, d) == false)
         {
           Action action({d}, 2); // extra cost
-          if(isUsableProperty(d.relation))
+          if(isUsableProperty(d->relation))
             if(!existInAction(action, actions)){
               actions.push_back(action);
               StatsManager::getInstance().simple_relation_created++;
             }
             else
-              std::cout << d.toString() << " existInAction" << std::endl;
+              std::cout << d->toString() << " existInAction" << std::endl;
         }
         else
           std::cout << "existInNode" << std::endl;
@@ -314,10 +314,10 @@ NodePtr Reg::getChildNode(NodePtr node, Action& action)
 
   for(auto& triplet : action.triplets)
   {
-    if(triplet.relation != "isA" && !onto_.isUsableIndividual(triplet.on) && !isAExist(child, triplet.on))
+    if(triplet->relation != "isA" && !onto_.isUsableIndividual(triplet->on) && !isAExist(child, triplet->on))
     {
-      child->unnamed_individuals.insert(triplet.on);
-      variables_.set(triplet.on);
+      child->unnamed_individuals.insert(triplet->on);
+      variables_.set(triplet->on);
     }
     child->query.push_back(toQuery(triplet));
   }
@@ -337,8 +337,8 @@ bool Reg::isAExist(NodePtr node, const std::string& indiv)
   {
     for(auto& triplet : state->triplets)
     {
-      if((triplet.from == indiv) &&
-        (triplet.relation == "isA"))
+      if((triplet->from == indiv) &&
+        (triplet->relation == "isA"))
         {
           node->isA_done.insert(indiv);
           return true;
@@ -406,7 +406,7 @@ IndividualDifferencesPtr Reg::getIndividualsDifferences(const std::string& indiv
       if (std::find(rel2.begin(), rel2.end(), rel) == rel2.end())
       {
         for (auto& on: ons) // If the relation is not present at all in the second individual, put all the triplet with this relation as differences
-          differences->soft_differences.push_back(Triplet(indivA, rel, on));
+          differences->soft_differences.push_back(std::make_shared<Triplet>(indivA, rel, on));
       }
       else
       {
@@ -415,7 +415,7 @@ IndividualDifferencesPtr Reg::getIndividualsDifferences(const std::string& indiv
         for (auto& on: ons)
         {
           if(std::find(ons2.begin(), ons2.end(), on) == ons2.end())
-            differences->hard_differences.push_back(Triplet(indivA, rel, on));
+            differences->hard_differences.push_back(std::make_shared<Triplet>(indivA, rel, on));
         }
       }
     }
@@ -450,25 +450,25 @@ std::string Reg::toQuery(const std::vector<std::string>& sub_queries)
   return query;
 }
 
-std::string Reg::toQuery(const Triplet& triplet)
+std::string Reg::toQuery(const TripletPtr& triplet)
 {
-  return variables_.getVar(triplet.from) + " " +
-                          triplet.relation + " " +
-                          variables_.getVar(triplet.on);
+  return variables_.getVar(triplet->from) + " " +
+                          triplet->relation + " " +
+                          variables_.getVar(triplet->on);
 }
 
-bool Reg::existInNode(NodePtr node, const Triplet& triplet)
+bool Reg::existInNode(NodePtr node, const TripletPtr& triplet)
 {
-  if(triplet.on.find('#') == std::string::npos)
+  if(triplet->on.find('#') == std::string::npos)
   {
-    std::vector<std::string> inverse = onto_.objectProperties.getInverse(triplet.relation);
+    std::vector<std::string> inverse = onto_.objectProperties.getInverse(triplet->relation);
     if(inverse.size())
     {
-      std::vector<Triplet> triplets;
+      std::vector<TripletPtr> triplets;
       triplets.push_back(triplet);
 
       for(const auto& i: inverse)
-        triplets.push_back(Triplet(triplet.on, i, triplet.from));
+        triplets.push_back(std::make_shared<Triplet>(triplet->on, i, triplet->from));
 
       return testExistInNode(node, triplets);
     }
@@ -479,7 +479,7 @@ bool Reg::existInNode(NodePtr node, const Triplet& triplet)
     return testExistInNode(node, triplet);
 }
 
-bool Reg::testExistInNode(NodePtr node, const std::vector<Triplet>& triplets)
+bool Reg::testExistInNode(NodePtr node, const std::vector<TripletPtr>& triplets)
 {
   StatePtr state = node->state;
   while(state != nullptr)
@@ -487,7 +487,7 @@ bool Reg::testExistInNode(NodePtr node, const std::vector<Triplet>& triplets)
     for(auto& node_triplet : state->triplets)
     {
       for(auto& triplet : triplets)
-        if(triplet.equals(node_triplet))
+        if(triplet->equals(node_triplet))
           return true;
     }
     state = state->ancestor;
@@ -496,14 +496,14 @@ bool Reg::testExistInNode(NodePtr node, const std::vector<Triplet>& triplets)
   return false;
 }
 
-bool Reg::testExistInNode(NodePtr node, const Triplet& triplet)
+bool Reg::testExistInNode(NodePtr node, const TripletPtr& triplet)
 {
   StatePtr state = node->state;
   while(state != nullptr)
   {
     for(auto& node_triplet : state->triplets)
     {
-      if(triplet.equals(node_triplet))
+      if(triplet->equals(node_triplet))
         return true;
     }
     state = state->ancestor;

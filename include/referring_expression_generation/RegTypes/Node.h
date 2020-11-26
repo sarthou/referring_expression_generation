@@ -18,12 +18,12 @@ typedef std::shared_ptr<Node> NodePtr;
 class Node
 {
 public:
-  Node(StatePtr ancestor, Triplet triplet)
+  Node(StatePtr ancestor, TripletPtr triplet)
   {
     state = std::make_shared<State>(ancestor, triplet);
   }
 
-  Node(StatePtr ancestor, const std::vector<Triplet>& triplets)
+  Node(StatePtr ancestor, const std::vector<TripletPtr>& triplets)
   {
     state = std::make_shared<State>(ancestor, triplets);
   }
