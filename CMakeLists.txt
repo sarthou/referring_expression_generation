@@ -56,16 +56,27 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
-add_library(reg_server_lib
+add_library(reg_serverreg_lib
    src/RegServer/OntologyAbstraction.cpp
    src/RegServer/Reg.cpp
 )
-add_dependencies(reg_server_lib ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(reg_server_lib ${catkin_LIBRARIES})
+add_dependencies(reg_serverreg_lib ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(reg_serverreg_lib ${catkin_LIBRARIES})
+
+add_library(reg_localreg_lib
+   src/RegLocal/OntologyAbstraction.cpp
+   src/RegLocal/Reg.cpp
+)
+add_dependencies(reg_localreg_lib ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(reg_localreg_lib ${catkin_LIBRARIES} ontologenius_interface)
 
 add_executable(reg_server src/tests/reg_server.cpp)
 add_dependencies(reg_server ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(reg_server ${catkin_LIBRARIES} reg_server_lib)
+target_link_libraries(reg_server ${catkin_LIBRARIES} reg_serverreg_lib)
+
+add_executable(reg_local_test src/tests/reg_local.cpp)
+add_dependencies(reg_local_test ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(reg_local_test ${catkin_LIBRARIES} reg_localreg_lib)
 
 #############
 ## Install ##
