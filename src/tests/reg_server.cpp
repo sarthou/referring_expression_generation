@@ -4,6 +4,9 @@
 #include "referring_expression_generation/StatsManager.h"
 
 #include "time.h"
+#include <chrono>
+
+using namespace std::chrono;
 
 int main(int argc, char **argv)
 {
@@ -15,15 +18,28 @@ int main(int argc, char **argv)
   ros::Duration(3).sleep();
 
   reg::Solution_t solution;
-  reg::Problem_t problem("room_B_book_7", {}, {"VisualRelation"});
+  reg::Problem_t problem("room_B_book_6", {}, {"VisualRelation"});
 
   StatsManager::getInstance().reset();
 
+  high_resolution_clock::time_point t1 = high_resolution_clock::now();
+  clock_t t = clock();
+
   solution = solver.plan(problem);
+
+  t = clock() - t;
+  high_resolution_clock::time_point t2 = high_resolution_clock::now();
+  duration<double> time_span = duration_cast<duration<double>>(t2 - t1);
+
+  std::cout << "Number of cycles : " << t << std::endl << "Time took : " << ((float)t)/CLOCKS_PER_SEC * 1000 << "ms" << std::endl;
+  std::cout << time_span.count()*1000 << "ms" << std::endl;
 
   if(solution.success)
   {
     std::cout << "SOLVED" << std::endl;
+    std::cout << "Node explored : " << StatsManager::getInstance().node_explored  << std::endl;
+    std::cout << "SPARQL Requests : " << StatsManager::getInstance().sparql_queries << std::endl;
+
     for(auto& query_part : solution.sparql)
       std::cout << query_part << ", ";
     std::cout << std::endl;

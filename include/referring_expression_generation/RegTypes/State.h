@@ -3,7 +3,7 @@
 
 #include <memory>
 #include <set>
-#include <vector>
+#include <unordered_set>
 
 #include "referring_expression_generation/RegTypes/Triplet.h"
 
@@ -17,7 +17,7 @@ class State
 public:
   State(StatePtr ancestor, TripletPtr triplet) : ancestor(ancestor)
   {
-    triplets.push_back(triplet);
+    triplets.insert(triplet);
     initial_state = false;
     if(ancestor)
       hash_set_ = ancestor->hash_set_;
@@ -25,9 +25,10 @@ public:
       hash_set_.insert(triplet->hash_value);
   }
 
-  State(StatePtr ancestor, const std::vector<TripletPtr>& triplets) : ancestor(ancestor), triplets(triplets)
+  State(StatePtr ancestor, const std::unordered_set<TripletPtr>& triplets) : ancestor(ancestor)
   {
     initial_state = false;
+    this->triplets = std::move(triplets);
     if(ancestor)
       hash_set_ = ancestor->hash_set_;
     if(triplets.size())
@@ -38,7 +39,7 @@ public:
   }
 
   StatePtr ancestor;
-  std::vector<TripletPtr> triplets;
+  std::unordered_set<TripletPtr> triplets;
   bool initial_state;
 
   bool operator==(const State& other) const

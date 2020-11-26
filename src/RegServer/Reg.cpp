@@ -1,7 +1,7 @@
 #include "referring_expression_generation/RegServer/Reg.h"
 #include "referring_expression_generation/StatsManager.h"
 
-#define DEBUG
+//#define DEBUG
 
 namespace reg
 {
@@ -28,7 +28,6 @@ Solution_t Reg::plan(const Problem_t& problem)
     for(size_t i = 0; i < problem.symbols.individuals.size(); i++)
       variables_.set(problem.symbols.individuals[i], problem.symbols.symbols[i]);
     NodePtr init_node = createInitialState(problem_.goal, problem_.context);
-    std::cout << "init node query = " << init_node->strQuery() << std::endl;
     solution = solve(init_node);
 
     if(solution.sparql.size())
@@ -71,10 +70,7 @@ Solution_t Reg::solve()
   while(found == false)
   {
     if(frontier_.empty())
-    {
-      std::cout << "empty frontier" << std::endl;
       break;
-    }
 
     node = frontier_.top();
     frontier_.pop();
@@ -93,7 +89,6 @@ Solution_t Reg::solve()
     explored_.push_back(node->state);
 
     auto actions = getActions(node);
-    std::cout << "actions.size() = " << actions.size() << std::endl;
     for(auto& action : actions)
     {
       NodePtr child = getChildNode(node, action);
@@ -115,7 +110,7 @@ NodePtr Reg::createInitialState(const std::string& individual, const std::vector
 {
   std::string individual_variable = variables_.getVar(individual);
 
-  std::vector<TripletPtr> init_triplets;
+  std::unordered_set<TripletPtr> init_triplets;
   std::vector<std::string> query;
   for(auto t : base_triplets)
   {
@@ -124,7 +119,7 @@ NodePtr Reg::createInitialState(const std::string& individual, const std::vector
       t.relation,
       (t.on == individual_variable) ? individual : t.on
     );
-    init_triplets.push_back(triplet);
+    init_triplets.insert(triplet);
     query.push_back(toQuery(triplet));
   }
 
@@ -177,50 +172,68 @@ Solution_t Reg::getFailedSolution(NodePtr node)
 
 bool Reg::getNamingActions(NodePtr node, std::vector<Action>& actions)
 {
-  std::vector<Action> local_actions;
-
   if(node->unnamed_individuals.size() == 0)
     return false;
-
-  for(auto& unnamed_individual : node->unnamed_individuals)
+  else if(node->unnamed_individuals.size() == 1)
   {
-    std::vector<std::string> usable_classes = onto_.getUsableClasses(unnamed_individual);
-    if(usable_classes.size())
-      variables_.set(unnamed_individual);
-
-    if(local_actions.size() == 0)
+    auto unnamed_individual = *(node->unnamed_individuals.begin());
+    std::vector<std::string> usableClasses = onto_.getUsableClasses(unnamed_individual);
+    for (auto& c: usableClasses)
     {
-      for(auto& usable_classe: usable_classes)
+      variables_.set(unnamed_individual);
+      Action action({std::make_shared<Triplet>(unnamed_individual, "isA", c)}, 1);
+      if(!existInAction(action, actions))
       {
-        local_actions.push_back(Action({std::make_shared<Triplet>(unnamed_individual, "isA", usable_classe)}, 1));
+        actions.push_back(std::move(action));
+        StatsManager::getInstance().undirect_naming_relation_created++;
       }
     }
-    else
+    return true;
+  }
+  else
+  {
+    std::vector<Action> local_actions;
+    for(auto& unnamed_individual : node->unnamed_individuals)
     {
-      std::vector<Action> tmp_actions;
-      std::swap(tmp_actions, local_actions);
-      for(auto& usable_classe: usable_classes)
+      std::vector<std::string> usable_classes = onto_.getUsableClasses(unnamed_individual);
+      if(usable_classes.size())
+        variables_.set(unnamed_individual);
+
+      if(local_actions.size() == 0)
       {
-        for(auto& action : tmp_actions)
+        for(auto& usable_classe: usable_classes)
         {
-          local_actions.push_back(action);
-          local_actions.back().triplets.push_back(std::make_shared<Triplet>(unnamed_individual, "isA", usable_classe));
-          local_actions.back().path_cost += 1;
+          local_actions.push_back(Action({std::make_shared<Triplet>(unnamed_individual, "isA", usable_classe)}, 1));
+        }
+      }
+      else
+      {
+        std::vector<Action> tmp_actions;
+        std::swap(tmp_actions, local_actions);
+        for(auto& usable_classe: usable_classes)
+        {
+          for(auto& action : tmp_actions)
+          {
+            local_actions.push_back(action);
+            local_actions.back().triplets.insert(std::make_shared<Triplet>(unnamed_individual, "isA", usable_classe));
+            local_actions.back().path_cost += 1;
+          }
         }
       }
     }
-  }
 
-  for(auto& action : local_actions)
-  {
-    if(!existInAction(action, actions))
+    for(auto& action : local_actions)
     {
-      actions.push_back(action);
-      StatsManager::getInstance().undirect_naming_relation_created++;
+      if(!existInAction(action, actions))
+      {
+        actions.push_back(action);
+        StatsManager::getInstance().undirect_naming_relation_created++;
+      }
     }
+
+    return true;
   }
 
-  std::cout << "will return true" << std::endl;
   return true;
 }
 
@@ -231,7 +244,6 @@ void Reg::getDiffActions(NodePtr node, std::vector<Action>& actions)
     for (auto& amb: kv.second)
     {
       IndividualDifferencesPtr diffs = getIndividualsDifferences(kv.first, amb);
-      std::cout << diffs->hard_differences.size() << " hards" << std::endl;
       for (auto& d: diffs->hard_differences)
       {
         if(existInNode(node, d) == false)
@@ -242,13 +254,9 @@ void Reg::getDiffActions(NodePtr node, std::vector<Action>& actions)
               actions.push_back(action);
               StatsManager::getInstance().simple_relation_created++;
             }
-            else
-              std::cout << d->toString() << " existInAction" << std::endl;
         }
-        else
-          std::cout << "existInNode" << std::endl;
       }
-      std::cout << diffs->soft_differences.size() << " softs" << std::endl;
+
       for (auto& d: diffs->soft_differences)
       {
         if(existInNode(node, d) == false)
@@ -259,11 +267,7 @@ void Reg::getDiffActions(NodePtr node, std::vector<Action>& actions)
               actions.push_back(action);
               StatsManager::getInstance().simple_relation_created++;
             }
-            else
-              std::cout << d->toString() << " existInAction" << std::endl;
         }
-        else
-          std::cout << "existInNode" << std::endl;
       }
     }
   }
@@ -308,7 +312,6 @@ NodePtr Reg::getChildNode(NodePtr node, Action& action)
   child->unnamed_individuals.clear();
 
 #ifdef DEBUG
-  std::cout << action.triplets.size() << " triplets" << std::endl;
   std::cout << "create child : " << action.toString() << std::endl;
 #endif
 

@@ -2,6 +2,8 @@
 
 #include <set>
 
+//#define DEBUG
+
 namespace reg
 {
   std::string OntologyAbstraction::getUsableClass(const std::string& indiv_id)
@@ -98,9 +100,9 @@ namespace reg
 
   std::vector<ontologenius::OntologeniusSparqlResponse> OntologyAbstraction::callSparlql(const std::string& query)
   {
-//#ifdef DEBUG
+#ifdef DEBUG
     std::cout << "[OntologyAbstraction] Sparql \"" << query << "\"" << std::endl;
-//#endif
+#endif
     return this->sparql.call(query);
   }
 

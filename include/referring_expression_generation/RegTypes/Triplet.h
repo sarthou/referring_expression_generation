@@ -37,7 +37,7 @@ public:
     return (hash_value == other.hash_value);
   }
 
-  bool empty() const
+  inline bool empty() const
   {
     return equals(Triplet{});
   }

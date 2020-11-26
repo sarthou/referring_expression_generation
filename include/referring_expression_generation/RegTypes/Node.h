@@ -23,7 +23,7 @@ public:
     state = std::make_shared<State>(ancestor, triplet);
   }
 
-  Node(StatePtr ancestor, const std::vector<TripletPtr>& triplets)
+  Node(StatePtr ancestor, const std::unordered_set<TripletPtr>& triplets)
   {
     state = std::make_shared<State>(ancestor, triplets);
   }
@@ -32,7 +32,7 @@ public:
   StatePtr state;
   std::vector<std::string> query;
   std::unordered_map<std::string, std::vector<std::string>> ambiguous;
-  std::set<std::string> unnamed_individuals;
+  std::unordered_set<std::string> unnamed_individuals;
   std::unordered_set<std::string> isA_done;
 
   bool operator==(const Node& other) const
