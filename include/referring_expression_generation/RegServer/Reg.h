@@ -49,6 +49,7 @@ private:
   NodePtr getChildNode(NodePtr node, Action& action);
 
   bool isAExist(NodePtr node, const std::string& indiv);
+  bool isCompoundEntity(const std::string& class_name);
   bool isUsableProperty(const std::string& property);
 
   std::unordered_map<std::string, std::vector<std::string>> getAmbiguous(const std::vector<ontologenius::OntologeniusSparqlResponse>& solutions);

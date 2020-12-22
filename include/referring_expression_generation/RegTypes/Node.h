@@ -7,6 +7,7 @@
 #include <unordered_set>
 #include <vector>
 
+#include "referring_expression_generation/RegTypes/CompoundEntity.h"
 #include "referring_expression_generation/RegTypes/State.h"
 #include "referring_expression_generation/RegTypes/Triplet.h"
 
@@ -32,6 +33,7 @@ public:
   StatePtr state;
   std::vector<std::string> query;
   std::unordered_map<std::string, std::vector<std::string>> ambiguous;
+  std::unordered_map<std::string, CompoundEntity> compound_entities;
   std::unordered_set<std::string> unnamed_individuals;
   std::unordered_set<std::string> isA_done;
 

@@ -18,7 +18,7 @@ int main(int argc, char **argv)
   ros::Duration(3).sleep();
 
   reg::Solution_t solution;
-  reg::Problem_t problem("room_B_book_6", {}, {"VisualRelation"});
+  reg::Problem_t problem("sean_connery", {}, {}); // "VisualRelation"
 
   StatsManager::getInstance().reset();
 

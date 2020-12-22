@@ -56,19 +56,24 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
+add_library(reg_regtypes_lib
+   src/RegTypes/CompoundEntity.cpp
+)
+add_dependencies(reg_regtypes_lib ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
 add_library(reg_serverreg_lib
    src/RegServer/OntologyAbstraction.cpp
    src/RegServer/Reg.cpp
 )
 add_dependencies(reg_serverreg_lib ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(reg_serverreg_lib ${catkin_LIBRARIES})
+target_link_libraries(reg_serverreg_lib reg_regtypes_lib ${catkin_LIBRARIES})
 
 add_library(reg_localreg_lib
    src/RegLocal/OntologyAbstraction.cpp
    src/RegLocal/Reg.cpp
 )
 add_dependencies(reg_localreg_lib ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(reg_localreg_lib ${catkin_LIBRARIES} ontologenius_interface)
+target_link_libraries(reg_localreg_lib reg_regtypes_lib ${catkin_LIBRARIES} ontologenius_interface)
 
 add_executable(reg_server src/tests/reg_server.cpp)
 add_dependencies(reg_server ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})

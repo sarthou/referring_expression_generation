@@ -17,6 +17,7 @@ public:
   }
 
   std::unordered_set<TripletPtr> triplets;
+  std::vector<std::pair<std::string, std::string>> compound_entities;
   int path_cost;
 
   bool operator==(const Action& other) const

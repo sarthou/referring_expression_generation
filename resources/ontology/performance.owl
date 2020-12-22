@@ -1,0 +1,206 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="performance#"
+     xml:base="performance"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+    <owl:Ontology rdf:about="performance"/>
+
+
+
+    <!--
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+
+
+    <!-- performance#perfHasRole -->
+
+    <owl:ObjectProperty rdf:about="performance#perfHasRole">
+      <rdfs:domain rdf:resource="performance#Performance"/>
+      <rdfs:range rdf:resource="performance#Role"/>
+    </owl:ObjectProperty>
+
+
+
+    <!-- performance#isRoleOfPerf -->
+
+    <owl:ObjectProperty rdf:about="performance#isRoleOfPerf">
+        <owl:inverseOf rdf:resource="performance#perfHasRole"/>
+        <rdfs:domain rdf:resource="performance#Role"/>
+        <rdfs:range rdf:resource="performance#Performance"/>
+    </owl:ObjectProperty>
+
+
+
+     <!-- performance#perfHasActor -->
+
+     <owl:ObjectProperty rdf:about="performance#perfHasActor">
+       <rdfs:domain rdf:resource="performance#Performance"/>
+       <rdfs:range rdf:resource="performance#Actor"/>
+     </owl:ObjectProperty>
+
+
+
+     <!-- performance#isActorOfPerf -->
+
+     <owl:ObjectProperty rdf:about="performance#isActorOfPerf">
+         <owl:inverseOf rdf:resource="performance#perfHasActor"/>
+         <rdfs:domain rdf:resource="performance#Actor"/>
+         <rdfs:range rdf:resource="performance#Performance"/>
+     </owl:ObjectProperty>
+
+
+
+      <!-- performance#perfHasFilm -->
+
+      <owl:ObjectProperty rdf:about="performance#perfHasFilm">
+        <rdfs:domain rdf:resource="performance#Performance"/>
+        <rdfs:range rdf:resource="performance#Film"/>
+      </owl:ObjectProperty>
+
+
+
+      <!-- performance#isFilmOfPerf -->
+
+      <owl:ObjectProperty rdf:about="performance#isFilmOfPerf">
+          <owl:inverseOf rdf:resource="performance#perfHasFilm"/>
+          <rdfs:domain rdf:resource="performance#Film"/>
+          <rdfs:range rdf:resource="performance#Performance"/>
+      </owl:ObjectProperty>
+
+
+
+
+
+    <!--
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+
+
+    <!--
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+
+
+    <!-- performance#Performance -->
+
+    <owl:Class rdf:about="performance#Performance">
+        <rdfs:label xml:lang="en">{?perfHasActor} who played {perfHasRole} in {perfHasFilm}</rdfs:label>
+        <rdfs:label xml:lang="en">{?perfHasActor} who played {perfHasRole}</rdfs:label>
+        <rdfs:label xml:lang="en">{?perfHasRole} played by {perfHasActor} in {perfHasFilm}</rdfs:label>
+        <rdfs:label xml:lang="en">{?perfHasRole} played by {perfHasActor}</rdfs:label>
+        <rdfs:label xml:lang="en">{?perfHasFilm} in which {perfHasActor} play {perfHasRole}</rdfs:label>
+        <rdfs:label xml:lang="en">{?perfHasFilm} in which {perfHasRole} is played by {perfHasActor}</rdfs:label>
+    </owl:Class>
+
+
+
+    <!-- performance#Actor -->
+
+    <owl:Class rdf:about="performance#Actor">
+        <rdfs:label xml:lang="en">actor</rdfs:label>
+        <rdfs:label xml:lang="fr">acteur</rdfs:label>
+    </owl:Class>
+
+
+
+    <!-- performance#Film -->
+
+    <owl:Class rdf:about="performance#Film">
+        <rdfs:label xml:lang="en">film</rdfs:label>
+        <rdfs:label xml:lang="fr">film</rdfs:label>
+    </owl:Class>
+
+
+
+    <!-- performance#Role -->
+
+    <owl:Class rdf:about="performance#Role">
+        <rdfs:label xml:lang="en">role</rdfs:label>
+        <rdfs:label xml:lang="fr">role</rdfs:label>
+    </owl:Class>
+
+
+
+    <!--
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+  -->
+
+
+    <!-- performance#gold_finger -->
+
+    <owl:NamedIndividual rdf:about="performance#gold_finger">
+        <rdf:type rdf:resource="performance#Film"/>
+        <rdfs:label xml:lang="en">gold finger</rdfs:label>
+        <rdfs:label xml:lang="fr">gold finger</rdfs:label>
+    </owl:NamedIndividual>
+
+
+    <!-- performance#james_bond -->
+
+    <owl:NamedIndividual rdf:about="performance#james_bond">
+        <rdf:type rdf:resource="performance#Role"/>
+        <rdfs:label xml:lang="en">james bond</rdfs:label>
+        <rdfs:label xml:lang="fr">james bond</rdfs:label>
+    </owl:NamedIndividual>
+
+
+    <!-- performance#sean_connery -->
+
+    <owl:NamedIndividual rdf:about="performance#sean_connery">
+        <rdf:type rdf:resource="performance#Actor"/>
+    </owl:NamedIndividual>
+
+
+    <!-- performance#an_annonymous_actor -->
+
+    <owl:NamedIndividual rdf:about="performance#an_annonymous_actor">
+        <rdf:type rdf:resource="performance#Actor"/>
+    </owl:NamedIndividual>
+
+
+    <!-- performance#perf_007 -->
+
+    <owl:NamedIndividual rdf:about="performance#perf_007">
+        <rdf:type rdf:resource="performance#Performance"/>
+        <perfHasActor rdf:resource="performance#sean_connery"/>
+        <perfHasFilm rdf:resource="performance#gold_finger"/>
+        <perfHasRole rdf:resource="performance#james_bond"/>
+    </owl:NamedIndividual>
+
+
+
+    <!--
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // General axioms
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.2.8.20170104-2310) https://github.com/owlcs/owlapi -->
