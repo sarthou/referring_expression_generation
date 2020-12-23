@@ -351,7 +351,9 @@ NodePtr Reg::getChildNode(NodePtr node, Action& action)
         current_state = current_state->ancestor;
       }
 
+      child->compound_entities.at(compound_entity.first).createLabelsGraph();
       std::cout << child->compound_entities.at(compound_entity.first).toString() << std::endl;
+      std::cout << child->compound_entities.at(compound_entity.first).nodeGraphToString() << std::endl;
     }
   }
 

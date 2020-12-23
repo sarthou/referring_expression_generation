@@ -1,5 +1,8 @@
 #include "referring_expression_generation/RegTypes/CompoundEntity.h"
 
+#include <map>
+#include <iostream>
+
 namespace reg {
 
 CompoundEntityLabel::CompoundEntityLabel(const std::string& label)
@@ -36,10 +39,10 @@ void CompoundEntity::setLabels(const std::vector<std::string>& str_labels)
 {
   for(auto& str_label : str_labels)
   {
-    CompoundEntityLabel label(str_label);
-    if(label.involved_properties.size())
+    CompoundEntityLabelPtr label = std::make_shared<CompoundEntityLabel>(str_label);
+    if(label->involved_properties.size())
     {
-      for(auto& prop : label.involved_properties)
+      for(auto& prop : label->involved_properties)
         possible_properties.insert(prop);
       labels.emplace_back(label);
     }
@@ -56,7 +59,7 @@ void CompoundEntity::setSubjectProperty(const std::string& subject_property)
   this->subject_property = subject_property;
   for(auto it = labels.begin(); it != labels.end();)
   {
-    if(it->subject_property != subject_property)
+    if((*it)->subject_property != subject_property)
       labels.erase(it);
     else
       ++it;
@@ -64,10 +67,36 @@ void CompoundEntity::setSubjectProperty(const std::string& subject_property)
 
   possible_properties.clear();
   for(auto& label : labels)
-    for(auto& prop : label.involved_properties)
+    for(auto& prop : label->involved_properties)
       if(prop != subject_property)
         possible_properties.insert(prop);
   used_properties.insert(subject_property);
+}
+
+bool CompoundEntity::useProperty(const std::string& property)
+{
+  auto possible_property_it = possible_properties.find(property);
+  if(possible_property_it == possible_properties.end())
+    return false;
+  possible_properties.erase(possible_property_it);
+  used_properties.insert(property);
+
+  for(auto it = labels.begin(); it != labels.end();)
+  {
+    if((*it)->involved_properties.find(property) == (*it)->involved_properties.end())
+      labels.erase(it);
+    else
+      ++it;
+  }
+
+  for(auto& node : labels_nodes)
+    if(node.property == property)
+    {
+      labels_nodes = node.next_nodes;
+      break;
+    }
+
+  return true;
 }
 
 std::string CompoundEntity::toString()
@@ -83,9 +112,95 @@ std::string CompoundEntity::toString()
     res += p + ", ";
   res += "\nActive labels =\n";
   for(auto& l : labels)
-    res += "\t"+ l.label +"\n";
+    res += "\t"+ l->label +"\n";
 
   return res;
 }
+
+std::string CompoundEntity::nodeGraphToString()
+{
+  std::string res;
+  for(auto& node : labels_nodes)
+    res += node.toString();
+  return res;
+}
+
+void CompoundEntity::createLabelsGraph()
+{
+  labelGraphNode_t root;
+  root.used_properties.insert(subject_property);
+  labels_nodes = createLabelGraphNode(labels, root);
+}
+
+std::vector<labelGraphNode_t> CompoundEntity::createLabelGraphNode(std::vector<CompoundEntityLabelPtr> labels, labelGraphNode_t previous_node)
+{
+  std::vector<labelGraphNode_t> res;
+
+  while(labels.size())
+  {
+    labelGraphNode_t label_node;
+
+    std::map<std::string, size_t> properties_count;
+    std::string max_property = "";
+    size_t max_count = 0;
+
+    for(auto& label : labels)
+    {
+      for(auto& property : label->involved_properties)
+      {
+        if(previous_node.used_properties.find(property) != previous_node.used_properties.end())
+          continue;
+
+        auto properties_count_it = properties_count.find(property);
+        if(properties_count_it == properties_count.end())
+        {
+          properties_count[property] = 1;
+          if(max_count == 0)
+          {
+            max_count = 1;
+            max_property = property;
+          }
+        }
+        else
+        {
+          properties_count_it->second++;
+          if(properties_count_it->second > max_count)
+          {
+            max_count = properties_count_it->second;
+            max_property = property;
+          }
+        }
+      }
+    }
+    if(max_property == "")
+      break;
+    label_node.property = max_property;
+    label_node.used_properties = previous_node.used_properties;
+    label_node.used_properties.insert(max_property);
+
+    for(auto it = labels.begin(); it != labels.end();)
+    {
+      if((*it)->involved_properties.find(max_property) != (*it)->involved_properties.end())
+      {
+        label_node.possible_labels.push_back((*it));
+        labels.erase(it);
+      }
+      else
+        ++it;
+    }
+
+    label_node.next_nodes = createLabelGraphNode(label_node.possible_labels, label_node);
+    res.push_back(label_node);
+  }
+
+  return res;
+}
+
+/*
+std::string property;
+std::unordered_set<CompoundEntityLabelPtr> possible_labels;
+std::unordered_set<CompoundEntityLabelPtr> valid_labels_id;
+std::vector<labelGraphNode_t> next_nodes;
+*/
 
 } // namespace reg

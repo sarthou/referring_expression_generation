@@ -104,6 +104,7 @@
     <owl:Class rdf:about="performance#Performance">
         <rdfs:label xml:lang="en">{?perfHasActor} who played {perfHasRole} in {perfHasFilm}</rdfs:label>
         <rdfs:label xml:lang="en">{?perfHasActor} who played {perfHasRole}</rdfs:label>
+        <rdfs:label xml:lang="en">{?perfHasActor} who played in {perfHasFilm}</rdfs:label>
         <rdfs:label xml:lang="en">{?perfHasRole} played by {perfHasActor} in {perfHasFilm}</rdfs:label>
         <rdfs:label xml:lang="en">{?perfHasRole} played by {perfHasActor}</rdfs:label>
         <rdfs:label xml:lang="en">{?perfHasFilm} in which {perfHasActor} play {perfHasRole}</rdfs:label>
