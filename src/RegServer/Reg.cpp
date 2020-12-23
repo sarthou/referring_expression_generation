@@ -135,7 +135,7 @@ NodePtr Reg::createInitialState(const std::string& individual, const std::vector
 
 bool Reg::isGoalNode(const NodePtr& node)
 {
-  return ((node->unnamed_individuals.size() == 0) && (getH(node) == 0));
+  return ((node->unnamed_individuals.size() == 0) && (getH(node) == 0) && isCompoundEntitiesValid(node));
 }
 
 Solution_t Reg::getSolution(NodePtr node)
@@ -259,7 +259,8 @@ void Reg::getDiffActions(NodePtr node, std::vector<Action>& actions)
         {
           Action action({d}, 1);
           if(isUsableProperty(d->relation))
-            if(!existInAction(action, actions)){
+            if(!existInAction(action, actions))
+            {
               actions.push_back(action);
               StatsManager::getInstance().simple_relation_created++;
             }
@@ -272,7 +273,8 @@ void Reg::getDiffActions(NodePtr node, std::vector<Action>& actions)
         {
           Action action({d}, 2); // extra cost
           if(isUsableProperty(d->relation))
-            if(!existInAction(action, actions)){
+            if(!existInAction(action, actions))
+            {
               actions.push_back(action);
               StatsManager::getInstance().simple_relation_created++;
             }
@@ -282,6 +284,31 @@ void Reg::getDiffActions(NodePtr node, std::vector<Action>& actions)
   }
 }
 
+void Reg::getCompoundActions(NodePtr node, std::vector<Action>& actions)
+{
+  for(auto& compound_entity : node->compound_entities)
+  {
+    auto properties = compound_entity.second.getNextProperties();
+    for(auto& property : properties)
+    {
+      auto ons = onto_.individuals.getOn(compound_entity.first, property);
+      for(auto& on : ons)
+      {
+        auto d = std::make_shared<Triplet>(compound_entity.first, property, on);
+        if(existInNode(node, d) == false)
+        {
+          Action action({d}, 1); // TODO cost
+          if(isUsableProperty(d->relation))
+            if(!existInAction(action, actions))
+            {
+              actions.push_back(action);
+              StatsManager::getInstance().compound_relation_created++;
+            }
+        }
+      }
+    }
+  }
+}
 
 std::vector<Action> Reg::getActions(NodePtr node)
 {
@@ -305,6 +332,7 @@ std::vector<Action> Reg::getActions(NodePtr node)
   }
 
   getDiffActions(node, actions);
+  getCompoundActions(node, actions);
 
 #ifdef DEBUG
   std::cout << "found " << actions.size() << " actions" << std::endl;
@@ -364,6 +392,16 @@ NodePtr Reg::getChildNode(NodePtr node, Action& action)
       child->unnamed_individuals.insert(triplet->on);
       variables_.set(triplet->on);
     }
+
+    auto compound_entity_it = child->compound_entities.find(triplet->from);
+    if(compound_entity_it != child->compound_entities.end())
+    {
+      std::cout << "on compound_entity " << triplet->from << " : " << triplet->relation << std::endl;
+      compound_entity_it->second.useProperty(triplet->relation);
+      std::cout << compound_entity_it->second.toString() << std::endl;
+      std::cout << compound_entity_it->second.nodeGraphToString() << std::endl;
+    }
+
     child->query.push_back(toQuery(triplet));
   }
 
@@ -490,6 +528,14 @@ int Reg::getH(const NodePtr& node)
   }
 
   return node->ambiguous[problem_.goal].size();
+}
+
+bool Reg::isCompoundEntitiesValid(const NodePtr& node)
+{
+  for(auto& compound_entity : node->compound_entities)
+    if(compound_entity.second.isValid() == false)
+      return false;
+  return true;
 }
 
 std::string Reg::toQuery(const std::vector<std::string>& sub_queries)

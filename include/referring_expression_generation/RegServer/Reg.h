@@ -45,6 +45,7 @@ private:
 
   bool getNamingActions(NodePtr node, std::vector<Action>& actions);
   void getDiffActions(NodePtr node, std::vector<Action>& actions);
+  void getCompoundActions(NodePtr node, std::vector<Action>& actions);
   std::vector<Action> getActions(NodePtr node);
   NodePtr getChildNode(NodePtr node, Action& action);
 
@@ -55,6 +56,7 @@ private:
   std::unordered_map<std::string, std::vector<std::string>> getAmbiguous(const std::vector<ontologenius::OntologeniusSparqlResponse>& solutions);
   IndividualDifferencesPtr getIndividualsDifferences(const std::string& indivA, const std::string& indivB);
   int getH(const NodePtr& node);
+  bool isCompoundEntitiesValid(const NodePtr& node);
 
   std::string toQuery(const TripletPtr& triplet);
 

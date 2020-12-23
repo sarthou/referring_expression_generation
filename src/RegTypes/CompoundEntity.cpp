@@ -89,14 +89,23 @@ bool CompoundEntity::useProperty(const std::string& property)
       ++it;
   }
 
-  for(auto& node : labels_nodes)
+  for(auto& node : labels_node.next_nodes)
     if(node.property == property)
     {
-      labels_nodes = node.next_nodes;
+      labels_node = node;
       break;
     }
 
   return true;
+}
+
+std::vector<std::string> CompoundEntity::getNextProperties()
+{
+  std::vector<std::string> res;
+  for(auto& node : labels_node.next_nodes)
+    res.push_back(node.property);
+
+  return res;
 }
 
 std::string CompoundEntity::toString()
@@ -119,17 +128,14 @@ std::string CompoundEntity::toString()
 
 std::string CompoundEntity::nodeGraphToString()
 {
-  std::string res;
-  for(auto& node : labels_nodes)
-    res += node.toString();
-  return res;
+  return labels_node.toString();
 }
 
 void CompoundEntity::createLabelsGraph()
 {
-  labelGraphNode_t root;
-  root.used_properties.insert(subject_property);
-  labels_nodes = createLabelGraphNode(labels, root);
+  labels_node.property = subject_property;
+  labels_node.used_properties.insert(subject_property);
+  labels_node.next_nodes = createLabelGraphNode(labels, labels_node);
 }
 
 std::vector<labelGraphNode_t> CompoundEntity::createLabelGraphNode(std::vector<CompoundEntityLabelPtr> labels, labelGraphNode_t& previous_node)

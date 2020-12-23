@@ -157,6 +157,14 @@
         <rdfs:label xml:lang="fr">gold finger</rdfs:label>
     </owl:NamedIndividual>
 
+    <!-- performance#casino_royale -->
+
+    <owl:NamedIndividual rdf:about="performance#casino_royale">
+        <rdf:type rdf:resource="performance#Film"/>
+        <rdfs:label xml:lang="en">casino royale</rdfs:label>
+        <rdfs:label xml:lang="fr">casino royale</rdfs:label>
+    </owl:NamedIndividual>
+
 
     <!-- performance#james_bond -->
 
@@ -167,6 +175,15 @@
     </owl:NamedIndividual>
 
 
+    <!-- performance#pussy_galore -->
+
+    <owl:NamedIndividual rdf:about="performance#pussy_galore">
+        <rdf:type rdf:resource="performance#Role"/>
+        <rdfs:label xml:lang="en">pussy galore</rdfs:label>
+        <rdfs:label xml:lang="fr">pussy galore</rdfs:label>
+    </owl:NamedIndividual>
+
+
     <!-- performance#sean_connery -->
 
     <owl:NamedIndividual rdf:about="performance#sean_connery">
@@ -174,9 +191,16 @@
     </owl:NamedIndividual>
 
 
-    <!-- performance#an_annonymous_actor -->
+    <!-- performance#daniel_craig -->
 
-    <owl:NamedIndividual rdf:about="performance#an_annonymous_actor">
+    <owl:NamedIndividual rdf:about="performance#daniel_craig">
+        <rdf:type rdf:resource="performance#Actor"/>
+    </owl:NamedIndividual>
+
+
+    <!-- performance#honor_blackman -->
+
+    <owl:NamedIndividual rdf:about="performance#honor_blackman">
         <rdf:type rdf:resource="performance#Actor"/>
     </owl:NamedIndividual>
 
@@ -188,6 +212,24 @@
         <perfHasActor rdf:resource="performance#sean_connery"/>
         <perfHasFilm rdf:resource="performance#gold_finger"/>
         <perfHasRole rdf:resource="performance#james_bond"/>
+    </owl:NamedIndividual>
+
+    <!-- performance#perf_craig -->
+
+    <owl:NamedIndividual rdf:about="performance#perf_craig">
+        <rdf:type rdf:resource="performance#Performance"/>
+        <perfHasActor rdf:resource="performance#daniel_craig"/>
+        <perfHasFilm rdf:resource="performance#casino_royale"/>
+        <perfHasRole rdf:resource="performance#james_bond"/>
+    </owl:NamedIndividual>
+
+    <!-- performance#perf_honor -->
+
+    <owl:NamedIndividual rdf:about="performance#perf_honor">
+        <rdf:type rdf:resource="performance#Performance"/>
+        <perfHasActor rdf:resource="performance#honor_blackman"/>
+        <perfHasFilm rdf:resource="performance#gold_finger"/>
+        <perfHasRole rdf:resource="performance#pussy_galore"/>
     </owl:NamedIndividual>
 
 

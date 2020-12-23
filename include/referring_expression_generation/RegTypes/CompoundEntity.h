@@ -52,11 +52,13 @@ public:
 
   void setSubjectProperty(const std::string& subject_property);
   bool useProperty(const std::string& property);
+  std::vector<std::string> getNextProperties();
 
   std::string toString();
   std::string nodeGraphToString();
 
   void createLabelsGraph();
+  bool isValid() { return labels_node.valid_labels.size(); }
 
   std::string entity_id;
   std::string class_id;
@@ -65,7 +67,7 @@ public:
   std::unordered_set<std::string> used_properties;
   std::vector<CompoundEntityLabelPtr> labels;
 
-  std::vector<labelGraphNode_t> labels_nodes;
+  labelGraphNode_t labels_node;
 private:
 
   std::vector<labelGraphNode_t> createLabelGraphNode(std::vector<CompoundEntityLabelPtr> labels, labelGraphNode_t& previous_node);
