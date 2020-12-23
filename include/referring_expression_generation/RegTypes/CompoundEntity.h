@@ -23,7 +23,7 @@ struct labelGraphNode_t
 {
   std::string property;
   std::vector<CompoundEntityLabelPtr> possible_labels;
-  std::unordered_set<CompoundEntityLabelPtr> valid_labels_id;
+  std::unordered_set<CompoundEntityLabelPtr> valid_labels;
   std::unordered_set<std::string> used_properties;
   std::vector<labelGraphNode_t> next_nodes;
 
@@ -32,7 +32,10 @@ struct labelGraphNode_t
     std::string res;
     for(size_t i = 0; i < level; i++)
       res += "   ";
-    res += property + "\n";
+    res += property;
+    if(valid_labels.size())
+      res += " ok " + std::to_string(valid_labels.size());
+    res += "\n";
     for(auto& node : next_nodes)
       res += node.toString(level + 1);
     return res;
@@ -65,7 +68,7 @@ public:
   std::vector<labelGraphNode_t> labels_nodes;
 private:
 
-  std::vector<labelGraphNode_t> createLabelGraphNode(std::vector<CompoundEntityLabelPtr> labels, labelGraphNode_t previous_node);
+  std::vector<labelGraphNode_t> createLabelGraphNode(std::vector<CompoundEntityLabelPtr> labels, labelGraphNode_t& previous_node);
 };
 
 } // namespace reg

@@ -132,7 +132,7 @@ void CompoundEntity::createLabelsGraph()
   labels_nodes = createLabelGraphNode(labels, root);
 }
 
-std::vector<labelGraphNode_t> CompoundEntity::createLabelGraphNode(std::vector<CompoundEntityLabelPtr> labels, labelGraphNode_t previous_node)
+std::vector<labelGraphNode_t> CompoundEntity::createLabelGraphNode(std::vector<CompoundEntityLabelPtr> labels, labelGraphNode_t& previous_node)
 {
   std::vector<labelGraphNode_t> res;
 
@@ -146,11 +146,13 @@ std::vector<labelGraphNode_t> CompoundEntity::createLabelGraphNode(std::vector<C
 
     for(auto& label : labels)
     {
+      bool valid_label = true;
       for(auto& property : label->involved_properties)
       {
         if(previous_node.used_properties.find(property) != previous_node.used_properties.end())
           continue;
 
+        valid_label = false;
         auto properties_count_it = properties_count.find(property);
         if(properties_count_it == properties_count.end())
         {
@@ -171,6 +173,9 @@ std::vector<labelGraphNode_t> CompoundEntity::createLabelGraphNode(std::vector<C
           }
         }
       }
+
+      if(valid_label)
+        previous_node.valid_labels.insert(label);
     }
     if(max_property == "")
       break;
