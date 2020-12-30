@@ -49,6 +49,7 @@ public:
 
   void setLabels(const std::vector<std::string>& str_labels);
   bool isUsableProperty(const std::string& property);
+  bool isInvolvedProperty(const std::string& property);
 
   void setSubjectProperty(const std::string& subject_property);
   bool useProperty(const std::string& property);
@@ -63,6 +64,7 @@ public:
   std::string entity_id;
   std::string class_id;
   std::string subject_property;
+  std::unordered_set<std::string> involved_properties;
   std::unordered_set<std::string> possible_properties;
   std::unordered_set<std::string> used_properties;
   std::vector<CompoundEntityLabelPtr> labels;

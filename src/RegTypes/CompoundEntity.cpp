@@ -54,6 +54,11 @@ bool CompoundEntity::isUsableProperty(const std::string& property)
   return (possible_properties.find(property) != possible_properties.end());
 }
 
+bool CompoundEntity::isInvolvedProperty(const std::string& property)
+{
+  return (involved_properties.find(property) != involved_properties.end());
+}
+
 void CompoundEntity::setSubjectProperty(const std::string& subject_property)
 {
   this->subject_property = subject_property;
@@ -70,6 +75,7 @@ void CompoundEntity::setSubjectProperty(const std::string& subject_property)
     for(auto& prop : label->involved_properties)
       if(prop != subject_property)
         possible_properties.insert(prop);
+  involved_properties = possible_properties;
   used_properties.insert(subject_property);
 }
 

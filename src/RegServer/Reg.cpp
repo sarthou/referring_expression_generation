@@ -380,8 +380,10 @@ NodePtr Reg::getChildNode(NodePtr node, Action& action)
       }
 
       child->compound_entities.at(compound_entity.first).createLabelsGraph();
-      std::cout << child->compound_entities.at(compound_entity.first).toString() << std::endl;
-      std::cout << child->compound_entities.at(compound_entity.first).nodeGraphToString() << std::endl;
+      #ifdef DEBUG
+        std::cout << child->compound_entities.at(compound_entity.first).toString() << std::endl;
+        std::cout << child->compound_entities.at(compound_entity.first).nodeGraphToString() << std::endl;
+      #endif
     }
   }
 
@@ -396,10 +398,14 @@ NodePtr Reg::getChildNode(NodePtr node, Action& action)
     auto compound_entity_it = child->compound_entities.find(triplet->from);
     if(compound_entity_it != child->compound_entities.end())
     {
-      std::cout << "on compound_entity " << triplet->from << " : " << triplet->relation << std::endl;
-      compound_entity_it->second.useProperty(triplet->relation);
-      std::cout << compound_entity_it->second.toString() << std::endl;
-      std::cout << compound_entity_it->second.nodeGraphToString() << std::endl;
+      if(compound_entity_it->second.isInvolvedProperty(triplet->relation))
+        if(compound_entity_it->second.useProperty(triplet->relation) == false)
+          continue;
+      #ifdef DEBUG
+        std::cout << "on compound_entity " << triplet->from << " : " << triplet->relation << std::endl;
+        std::cout << compound_entity_it->second.toString() << std::endl;
+        std::cout << compound_entity_it->second.nodeGraphToString() << std::endl;
+      #endif
     }
 
     child->query.push_back(toQuery(triplet));
