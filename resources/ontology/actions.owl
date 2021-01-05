@@ -1,0 +1,254 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="actions#"
+     xml:base="actions"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+    <owl:Ontology rdf:about="actions"/>
+
+
+
+    <!--
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+
+
+    <!-- actions#hasParameter -->
+
+    <owl:ObjectProperty rdf:about="actions#hasParameter">
+    </owl:ObjectProperty>
+
+
+
+    <!-- actions#isParameterOf -->
+
+    <owl:ObjectProperty rdf:about="actions#isParameterOf">
+        <owl:inverseOf rdf:resource="actions#hasParameter"/>
+    </owl:ObjectProperty>
+
+
+
+     <!-- actions#cutHasParameter -->
+
+     <owl:ObjectProperty rdf:about="actions#cutHasParameter">
+       <rdfs:subPropertyOf rdf:resource="actions#hasParameter"/>
+       <rdfs:domain rdf:resource="actions#CutAction"/>
+     </owl:ObjectProperty>
+
+
+
+     <!-- actions#cutHasParameterAgent -->
+
+     <owl:ObjectProperty rdf:about="actions#cutHasParameterAgent">
+       <rdfs:subPropertyOf rdf:resource="actions#cutHasParameter"/>
+       <rdfs:domain rdf:resource="actions#CutAction"/>
+       <rdfs:range rdf:resource="actions#Agent"/>
+     </owl:ObjectProperty>
+
+
+
+     <!-- actions#cutHasParameterKnife -->
+
+     <owl:ObjectProperty rdf:about="actions#cutHasParameterKnife">
+       <rdfs:subPropertyOf rdf:resource="actions#cutHasParameter"/>
+       <rdfs:domain rdf:resource="actions#CutAction"/>
+       <rdfs:range rdf:resource="actions#Knife"/>
+     </owl:ObjectProperty>
+
+
+
+     <!-- actions#cutHasParameterVegetable -->
+
+     <owl:ObjectProperty rdf:about="actions#cutHasParameterVegetable">
+       <rdfs:subPropertyOf rdf:resource="actions#cutHasParameter"/>
+       <rdfs:domain rdf:resource="actions#CutAction"/>
+       <rdfs:range rdf:resource="actions#Vegetable"/>
+     </owl:ObjectProperty>
+
+
+
+
+
+    <!--
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+
+
+    <!--
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+
+
+    <!-- actions#CutAction -->
+
+    <owl:Class rdf:about="actions#CutAction">
+        <rdfs:label xml:lang="en">{?cutHasParameterVegetable} that {cutHasParameterAgent} cut with {cutHasParameterKnife}</rdfs:label>
+        <rdfs:label xml:lang="en">{?cutHasParameterVegetable} that {cutHasParameterAgent} cut</rdfs:label>
+        <rdfs:label xml:lang="en">{?cutHasParameterKnife} with which {cutHasParameterAgent} cut {cutHasParameterVegetable}</rdfs:label>
+    </owl:Class>
+
+
+
+    <!-- actions#Agent -->
+
+    <owl:Class rdf:about="actions#Agent">
+    </owl:Class>
+
+
+
+    <!-- actions#Knife -->
+
+    <owl:Class rdf:about="actions#Knife">
+        <rdfs:subClassOf rdf:resource="expe_ontology#Object"/>
+        <rdfs:label xml:lang="en">knife</rdfs:label>
+        <rdfs:label xml:lang="fr">couteau</rdfs:label>
+    </owl:Class>
+
+
+
+    <!-- actions#Vegetable -->
+
+    <owl:Class rdf:about="actions#Vegetable">
+        <rdfs:label xml:lang="en">vegetable</rdfs:label>
+        <rdfs:label xml:lang="fr">legume</rdfs:label>
+    </owl:Class>
+
+
+
+    <!-- actions#Tomato -->
+
+    <owl:Class rdf:about="actions#Tomato">
+        <rdfs:subClassOf rdf:resource="actions#Vegetable"/>
+        <rdfs:label xml:lang="en">tomato</rdfs:label>
+        <rdfs:label xml:lang="fr">tomate</rdfs:label>
+    </owl:Class>
+
+
+
+    <!-- actions#Cucumber -->
+
+    <owl:Class rdf:about="actions#Cucumber">
+        <rdfs:subClassOf rdf:resource="actions#Vegetable"/>
+        <rdfs:label xml:lang="en">cucumber</rdfs:label>
+        <rdfs:label xml:lang="fr">concombre</rdfs:label>
+    </owl:Class>
+
+
+
+    <!--
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+  -->
+
+
+    <!-- actions#agent_bob -->
+
+    <owl:NamedIndividual rdf:about="actions#agent_bob">
+        <rdf:type rdf:resource="actions#Agent"/>
+        <rdfs:label xml:lang="en">bobi</rdfs:label>
+        <rdfs:label xml:lang="fr">bobi</rdfs:label>
+    </owl:NamedIndividual>
+
+    <!-- actions#knife_1 -->
+
+    <owl:NamedIndividual rdf:about="actions#knife_1">
+        <rdf:type rdf:resource="actions#Knife"/>
+        <expe_ontologies:hasColor rdf:resource="expe_ontologies#red"/>
+    </owl:NamedIndividual>
+
+
+    <!-- actions#knife_2 -->
+
+    <owl:NamedIndividual rdf:about="actions#knife_2">
+        <rdf:type rdf:resource="actions#Knife"/>
+        <expe_ontologies:hasColor rdf:resource="expe_ontologies#blue"/>
+    </owl:NamedIndividual>
+
+
+    <!-- actions#knife_3 -->
+
+    <owl:NamedIndividual rdf:about="actions#knife_3">
+        <rdf:type rdf:resource="actions#Knife"/>
+        <expe_ontologies:hasColor rdf:resource="expe_ontologies#blue"/>
+    </owl:NamedIndividual>
+
+
+    <!-- actions#tomato_1 -->
+
+    <owl:NamedIndividual rdf:about="actions#tomato_1">
+        <rdf:type rdf:resource="actions#Tomato"/>
+    </owl:NamedIndividual>
+
+
+    <!-- actions#tomato_2 -->
+
+    <owl:NamedIndividual rdf:about="actions#tomato_2">
+        <rdf:type rdf:resource="actions#Tomato"/>
+    </owl:NamedIndividual>
+
+
+    <!-- actions#cucumber_1 -->
+
+    <owl:NamedIndividual rdf:about="actions#cucumber_1">
+        <rdf:type rdf:resource="actions#Cucumber"/>
+    </owl:NamedIndividual>
+
+
+    <!-- actions#cut_1 -->
+
+    <owl:NamedIndividual rdf:about="actions#cut_1">
+        <rdf:type rdf:resource="actions#CutAction"/>
+        <cutHasParameterAgent rdf:resource="actions#agent_bob"/>
+        <cutHasParameterKnife rdf:resource="actions#knife_1"/>
+        <cutHasParameterVegetable rdf:resource="actions#tomato_1"/>
+    </owl:NamedIndividual>
+
+    <!-- actions#cut_2 -->
+
+    <owl:NamedIndividual rdf:about="actions#cut_2">
+        <rdf:type rdf:resource="actions#CutAction"/>
+        <cutHasParameterAgent rdf:resource="actions#agent_bob"/>
+        <cutHasParameterKnife rdf:resource="actions#knife_2"/>
+        <cutHasParameterVegetable rdf:resource="actions#tomato_2"/>
+    </owl:NamedIndividual>
+
+    <!-- actions#cut_3 -->
+
+    <owl:NamedIndividual rdf:about="actions#cut_3">
+        <rdf:type rdf:resource="actions#CutAction"/>
+        <cutHasParameterAgent rdf:resource="actions#agent_bob"/>
+        <cutHasParameterKnife rdf:resource="actions#knife_3"/>
+        <cutHasParameterVegetable rdf:resource="actions#cucumber_1"/>
+    </owl:NamedIndividual>
+
+
+
+    <!--
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // General axioms
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+</rdf:RDF>
