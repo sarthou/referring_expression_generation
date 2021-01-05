@@ -7,6 +7,7 @@
     $(find referring_expression_generation)/resources/ontology/living_room.owl
     $(find referring_expression_generation)/resources/ontology/office.owl
     $(find referring_expression_generation)/resources/ontology/performance.owl
+    $(find referring_expression_generation)/resources/ontology/actions.owl
     "/>
   <arg name="config" default="$(find referring_expression_generation)/resources/conf/no_generalization.yaml"/>
 

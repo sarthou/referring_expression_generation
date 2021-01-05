@@ -54,6 +54,11 @@ bool CompoundEntity::isUsableProperty(const std::string& property)
   return (possible_properties.find(property) != possible_properties.end());
 }
 
+bool CompoundEntity::isUsedProperty(const std::string& property)
+{
+  return (used_properties.find(property) != used_properties.end());
+}
+
 bool CompoundEntity::isInvolvedProperty(const std::string& property)
 {
   return (involved_properties.find(property) != involved_properties.end());
@@ -76,6 +81,7 @@ void CompoundEntity::setSubjectProperty(const std::string& subject_property)
       if(prop != subject_property)
         possible_properties.insert(prop);
   involved_properties = possible_properties;
+  involved_properties.insert(subject_property);
   used_properties.insert(subject_property);
 }
 
@@ -95,14 +101,16 @@ bool CompoundEntity::useProperty(const std::string& property)
       ++it;
   }
 
+  bool is_used = false;
   for(auto& node : labels_node.next_nodes)
     if(node.property == property)
     {
       labels_node = node;
+      is_used = true;
       break;
     }
 
-  return true;
+  return is_used;
 }
 
 std::vector<std::string> CompoundEntity::getNextProperties()
@@ -119,7 +127,10 @@ std::string CompoundEntity::toString()
   std::string res = "-- compound entity --\n";
   res += entity_id + " : " + class_id + "\n";
   res += "subject = " + subject_property + "\n";
-  res += "usable properties = ";
+  res += "involved properties = ";
+  for(auto& p : involved_properties)
+    res += p + ", ";
+  res += "\npossible properties = ";
   for(auto& p : possible_properties)
     res += p + ", ";
   res += "\nUsed properties = ";

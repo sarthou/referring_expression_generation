@@ -49,6 +49,7 @@ public:
 
   void setLabels(const std::vector<std::string>& str_labels);
   bool isUsableProperty(const std::string& property);
+  bool isUsedProperty(const std::string& property);
   bool isInvolvedProperty(const std::string& property);
 
   void setSubjectProperty(const std::string& subject_property);

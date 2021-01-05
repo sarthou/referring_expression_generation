@@ -1,7 +1,7 @@
 #include "referring_expression_generation/RegServer/Reg.h"
 #include "referring_expression_generation/StatsManager.h"
 
-//#define DEBUG
+#define DEBUG
 
 namespace reg
 {
@@ -74,6 +74,8 @@ Solution_t Reg::solve()
 
     node = frontier_.top();
     frontier_.pop();
+    std::cout << "============= POP ============" << std::endl;
+    std::cout << node->state->toString() << std::endl;
     StatsManager::getInstance().node_explored++;
 
     if(isGoalNode(node))
@@ -313,7 +315,7 @@ void Reg::getCompoundActions(NodePtr node, std::vector<Action>& actions)
 std::vector<Action> Reg::getActions(NodePtr node)
 {
 #ifdef DEBUG
-  std::cout << "----- getActions -----" << std::endl;
+  std::cout << "************* getActions *************" << std::endl;
   std::cout << "unnamed: " << std::endl;
   for(auto& amb : node->unnamed_individuals)
     std::cout << amb << " " << std::endl;
@@ -350,9 +352,10 @@ NodePtr Reg::getChildNode(NodePtr node, Action& action)
   child->unnamed_individuals.clear();
 
 #ifdef DEBUG
-  std::cout << "create child : " << action.toString() << std::endl;
+  std::cout << "************* create child : " << action.toString() << " *************" << std::endl;
 #endif
 
+  std::cout << "nb CE in action ==> " << action.compound_entities.size() << std::endl;
   if(action.compound_entities.size())
   {
     for(auto& compound_entity : action.compound_entities)
@@ -367,7 +370,7 @@ NodePtr Reg::getChildNode(NodePtr node, Action& action)
         {
           if(triplet->on == compound_entity.first)
           {
-            std::vector<std::string> inv_properties = onto_.objectProperties.getInverse(triplet->relation);
+            std::vector<std::string> inv_properties = onto_.individuals.getWith(triplet->on, triplet->from);
             for(auto& inv : inv_properties)
               if(child->compound_entities.at(compound_entity.first).isUsableProperty(inv))
               {
@@ -379,6 +382,7 @@ NodePtr Reg::getChildNode(NodePtr node, Action& action)
         current_state = current_state->ancestor;
       }
 
+      std::cout << "==> createLabelsGraph" << std::endl;
       child->compound_entities.at(compound_entity.first).createLabelsGraph();
       #ifdef DEBUG
         std::cout << child->compound_entities.at(compound_entity.first).toString() << std::endl;
@@ -399,13 +403,16 @@ NodePtr Reg::getChildNode(NodePtr node, Action& action)
     if(compound_entity_it != child->compound_entities.end())
     {
       if(compound_entity_it->second.isInvolvedProperty(triplet->relation))
+      {
+        std::cout << "try to use in CE" << std::endl;
         if(compound_entity_it->second.useProperty(triplet->relation) == false)
-          continue;
-      #ifdef DEBUG
-        std::cout << "on compound_entity " << triplet->from << " : " << triplet->relation << std::endl;
-        std::cout << compound_entity_it->second.toString() << std::endl;
-        std::cout << compound_entity_it->second.nodeGraphToString() << std::endl;
-      #endif
+          return nullptr;
+        #ifdef DEBUG
+          std::cout << "on compound_entity " << triplet->from << " : " << triplet->relation << std::endl;
+          std::cout << compound_entity_it->second.toString() << std::endl;
+          std::cout << compound_entity_it->second.nodeGraphToString() << std::endl;
+        #endif
+      }
     }
 
     child->query.push_back(toQuery(triplet));

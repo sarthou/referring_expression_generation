@@ -52,6 +52,14 @@ public:
     return (hash_set_ == other->hash_set_);
   }
 
+  std::string toString()
+  {
+    std::string res;
+    for(auto t : triplets)
+      res += t->toString() + ", ";
+    return res;
+  }
+
 private:
   std::set<size_t> hash_set_;
 };
