@@ -48,6 +48,7 @@ private:
   void getCompoundActions(NodePtr node, std::vector<Action>& actions);
   std::vector<Action> getActions(NodePtr node);
   NodePtr getChildNode(NodePtr node, Action& action);
+  std::unordered_set<TripletPtr> setTripletsToChildNode(NodePtr& node, const std::unordered_set<TripletPtr>& triplets);
 
   bool isAExist(NodePtr node, const std::string& indiv);
   bool isCompoundEntity(const std::string& class_name);

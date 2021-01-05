@@ -64,6 +64,19 @@ bool CompoundEntity::isInvolvedProperty(const std::string& property)
   return (involved_properties.find(property) != involved_properties.end());
 }
 
+bool CompoundEntity::hasDirectProperty()
+{
+  return labels_node.hasDirectNode();
+}
+
+std::string CompoundEntity::getDirectProperty()
+{
+  if(!hasDirectProperty())
+    return "";
+  else
+    return labels_node.next_nodes[0].property;
+}
+
 void CompoundEntity::setSubjectProperty(const std::string& subject_property)
 {
   this->subject_property = subject_property;

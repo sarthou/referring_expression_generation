@@ -1,7 +1,7 @@
 #include "referring_expression_generation/RegServer/Reg.h"
 #include "referring_expression_generation/StatsManager.h"
 
-//#define DEBUG
+#define DEBUG
 
 #ifndef COLOR_OFF
 #define COLOR_OFF     "\x1B[0m"
@@ -403,16 +403,33 @@ NodePtr Reg::getChildNode(NodePtr node, Action& action)
     }
   }
 
-  for(auto& triplet : action.triplets)
+  child->path_cost = node->path_cost + action.path_cost;
+
+  std::unordered_set<TripletPtr> triplets = action.triplets;
+  while(triplets.size())
   {
-    if(triplet->relation != "isA" && !onto_.isUsableIndividual(triplet->on) && !isAExist(child, triplet->on))
+    triplets = setTripletsToChildNode(child, triplets);
+    for(auto& triplet : triplets)
+      child->state->triplets.insert(triplet);
+  }
+
+  return child;
+}
+
+std::unordered_set<TripletPtr> Reg::setTripletsToChildNode(NodePtr& node, const std::unordered_set<TripletPtr>& triplets)
+{
+  std::unordered_set<TripletPtr> extracted_triplets;
+
+  for(auto& triplet : triplets)
+  {
+    if(triplet->relation != "isA" && !onto_.isUsableIndividual(triplet->on) && !isAExist(node, triplet->on))
     {
-      child->unnamed_individuals.insert(triplet->on);
+      node->unnamed_individuals.insert(triplet->on);
       variables_.set(triplet->on);
     }
 
-    auto compound_entity_it = child->compound_entities.find(triplet->from);
-    if(compound_entity_it != child->compound_entities.end())
+    auto compound_entity_it = node->compound_entities.find(triplet->from);
+    if(compound_entity_it != node->compound_entities.end())
     {
       if(compound_entity_it->second.isInvolvedProperty(triplet->relation))
       {
@@ -421,7 +438,27 @@ NodePtr Reg::getChildNode(NodePtr node, Action& action)
           #ifdef DEBUG
             std::cout << "aborted" << std::endl;
           #endif
-          return nullptr;
+          node = nullptr;
+          return {};
+        }
+
+        if(compound_entity_it->second.hasDirectProperty())
+        {
+          std::string direct_property = compound_entity_it->second.getDirectProperty();
+          std::vector<std::string> direct_ons = onto_.individuals.getOn(triplet->from, direct_property);
+          if(direct_ons.size())
+          {
+            node->path_cost += 1;
+            extracted_triplets.insert(std::make_shared<Triplet>(triplet->from, direct_property, direct_ons[0]));
+          }
+          else
+          {
+            #ifdef DEBUG
+              std::cout << "aborted" << std::endl;
+            #endif
+            node = nullptr;
+            return {};
+          }
         }
 
         #ifdef DEBUG
@@ -432,12 +469,10 @@ NodePtr Reg::getChildNode(NodePtr node, Action& action)
       }
     }
 
-    child->query.push_back(toQuery(triplet));
+    node->query.push_back(toQuery(triplet));
   }
 
-  child->path_cost = node->path_cost + action.path_cost;
-
-  return child;
+  return extracted_triplets;
 }
 
 bool Reg::isAExist(NodePtr node, const std::string& indiv)

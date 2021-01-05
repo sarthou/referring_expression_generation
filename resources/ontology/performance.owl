@@ -116,6 +116,7 @@
     <!-- performance#Actor -->
 
     <owl:Class rdf:about="performance#Actor">
+        <rdfs:subClassOf rdf:resource="expe_ontology#Agent"/>
         <rdfs:label xml:lang="en">actor</rdfs:label>
         <rdfs:label xml:lang="fr">acteur</rdfs:label>
     </owl:Class>

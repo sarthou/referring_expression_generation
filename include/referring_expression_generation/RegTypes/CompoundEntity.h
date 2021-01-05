@@ -35,10 +35,17 @@ struct labelGraphNode_t
     res += property;
     if(valid_labels.size())
       res += " ok " + std::to_string(valid_labels.size());
+    else if(hasDirectNode())
+      res += " ->";
     res += "\n";
     for(auto& node : next_nodes)
       res += node.toString(level + 1);
     return res;
+  }
+
+  bool hasDirectNode()
+  {
+    return((valid_labels.size() == 0) && (next_nodes.size() == 1));
   }
 };
 
@@ -51,6 +58,9 @@ public:
   bool isUsableProperty(const std::string& property);
   bool isUsedProperty(const std::string& property);
   bool isInvolvedProperty(const std::string& property);
+
+  bool hasDirectProperty();
+  std::string getDirectProperty();
 
   void setSubjectProperty(const std::string& subject_property);
   bool useProperty(const std::string& property);
