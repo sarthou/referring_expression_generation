@@ -372,29 +372,37 @@ NodePtr Reg::getChildNode(NodePtr node, Action& action)
   {
     for(auto& compound_entity : action.compound_entities)
     {
-      child->compound_entities.insert({compound_entity.first, {compound_entity.first, compound_entity.second}});
-      child->compound_entities.at(compound_entity.first).setLabels(onto_.onto->class_graph_.getNames(compound_entity.second));
-
-      auto current_state = child->state;
-      while(current_state != nullptr)
+      auto ce = compound_entities_.find(compound_entity.first);
+      if(ce == compound_entities_.end())
       {
-        for(auto& triplet : current_state->triplets)
-        {
-          if(triplet->on == compound_entity.first)
-          {
-            auto inv_properties = onto_.onto->individual_graph_.getWith(triplet->on, triplet->from);
-            for(auto& inv : inv_properties)
-              if(child->compound_entities.at(compound_entity.first).isUsableProperty(inv))
-              {
-                child->compound_entities.at(compound_entity.first).setSubjectProperty(inv);
-                break;
-              }
-          }
-        }
-        current_state = current_state->ancestor;
-      }
+        child->compound_entities.insert({compound_entity.first, {compound_entity.first, compound_entity.second}});
+        child->compound_entities.at(compound_entity.first).setLabels(onto_.onto->class_graph_.getNames(compound_entity.second));
 
-      child->compound_entities.at(compound_entity.first).createLabelsGraph();
+        auto current_state = child->state;
+        while(current_state != nullptr)
+        {
+          for(auto& triplet : current_state->triplets)
+          {
+            if(triplet->on == compound_entity.first)
+            {
+              auto inv_properties = onto_.onto->individual_graph_.getWith(triplet->on, triplet->from);
+              for(auto& inv : inv_properties)
+                if(child->compound_entities.at(compound_entity.first).isUsableProperty(inv))
+                {
+                  child->compound_entities.at(compound_entity.first).setSubjectProperty(inv);
+                  break;
+                }
+            }
+          }
+          current_state = current_state->ancestor;
+        }
+
+        child->compound_entities.at(compound_entity.first).createLabelsGraph();
+        compound_entities_.insert({compound_entity.first, child->compound_entities.at(compound_entity.first)});
+      }
+      else
+        child->compound_entities.insert({compound_entity.first, compound_entities_.at(compound_entity.first)});
+
       #ifdef DEBUG
         std::cout << "==> createLabelsGraph" << std::endl;
         std::cout << child->compound_entities.at(compound_entity.first).toString() << std::endl;
@@ -500,11 +508,16 @@ bool Reg::isAExist(NodePtr node, const std::string& indiv)
 
 bool Reg::isCompoundEntity(const std::string& class_name)
 {
-  auto class_names = onto_.onto->class_graph_.getNames(class_name);
-  for(auto& name : class_names)
-    if(name.find("{?") != std::string::npos)
-      return true;
-  return false;
+  if(compound_entities_.find(class_name) != compound_entities_.end())
+    return true;
+  else
+  {
+    auto class_names = onto_.onto->class_graph_.getNames(class_name);
+    for(auto& name : class_names)
+      if(name.find("{?") != std::string::npos)
+        return true;
+    return false;
+  }
 }
 
 bool Reg::isUsableProperty(const std::string& property)

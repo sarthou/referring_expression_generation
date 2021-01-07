@@ -21,11 +21,13 @@ typedef std::shared_ptr<CompoundEntityLabel> CompoundEntityLabelPtr;
 
 struct labelGraphNode_t
 {
+  labelGraphNode_t(const std::string& property) : property(property) {}
+
   std::string property;
   std::vector<CompoundEntityLabelPtr> possible_labels;
   std::unordered_set<CompoundEntityLabelPtr> valid_labels;
   std::unordered_set<std::string> used_properties;
-  std::vector<labelGraphNode_t> next_nodes;
+  std::vector<std::shared_ptr<labelGraphNode_t>> next_nodes;
 
   std::string toString(size_t level = 0)
   {
@@ -39,7 +41,7 @@ struct labelGraphNode_t
       res += " ->";
     res += "\n";
     for(auto& node : next_nodes)
-      res += node.toString(level + 1);
+      res += node->toString(level + 1);
     return res;
   }
 
@@ -48,6 +50,7 @@ struct labelGraphNode_t
     return((valid_labels.size() == 0) && (next_nodes.size() == 1));
   }
 };
+typedef std::shared_ptr<labelGraphNode_t> labelGraphNodePtr;
 
 class CompoundEntity
 {
@@ -70,7 +73,7 @@ public:
   std::string nodeGraphToString();
 
   void createLabelsGraph();
-  bool isValid() { return labels_node.valid_labels.size(); }
+  bool isValid() { return labels_node->valid_labels.size(); }
 
   std::string entity_id;
   std::string class_id;
@@ -80,10 +83,10 @@ public:
   std::unordered_set<std::string> used_properties;
   std::vector<CompoundEntityLabelPtr> labels;
 
-  labelGraphNode_t labels_node;
+  labelGraphNodePtr labels_node;
 private:
 
-  std::vector<labelGraphNode_t> createLabelGraphNode(std::vector<CompoundEntityLabelPtr> labels, labelGraphNode_t& previous_node);
+  std::vector<labelGraphNodePtr> createLabelGraphNode(std::vector<CompoundEntityLabelPtr> labels, labelGraphNodePtr previous_node);
 };
 
 } // namespace reg

@@ -31,6 +31,7 @@ private:
 
   std::unordered_set<std::string> usable_properties_;
   std::unordered_set<std::string> unusable_properties_;
+  std::map<std::string, CompoundEntity> compound_entities_;
 
   Problem_t problem_;
   SparqlVariables variables_;
