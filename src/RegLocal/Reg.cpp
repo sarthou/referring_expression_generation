@@ -3,6 +3,16 @@
 
 //#define DEBUG
 
+#ifndef COLOR_OFF
+#define COLOR_OFF     "\x1B[0m"
+#endif
+#ifndef COLOR_RED
+#define COLOR_RED     "\x1B[0;91m"
+#endif
+#ifndef COLOR_GREEN
+#define COLOR_GREEN   "\x1B[1;92m"
+#endif
+
 namespace reg
 {
 
@@ -74,6 +84,10 @@ Solution_t Reg::solve()
 
     node = frontier_.top();
     frontier_.pop();
+    #ifdef DEBUG
+      std::cout << COLOR_GREEN << "============= POP ============" << COLOR_OFF << std::endl;
+      std::cout << node->state->toString() << std::endl;
+    #endif
     StatsManager::getInstance().node_explored++;
 
     if(isGoalNode(node))
@@ -135,7 +149,7 @@ NodePtr Reg::createInitialState(const std::string& individual, const std::vector
 
 bool Reg::isGoalNode(const NodePtr& node)
 {
-  return ((node->unnamed_individuals.size() == 0) && (getH(node) == 0));
+  return ((node->unnamed_individuals.size() == 0) && (getH(node) == 0) && isCompoundEntitiesValid(node));
 }
 
 Solution_t Reg::getSolution(NodePtr node)
@@ -182,6 +196,10 @@ bool Reg::getNamingActions(NodePtr node, std::vector<Action>& actions)
     {
       variables_.set(unnamed_individual);
       Action action({std::make_shared<Triplet>(unnamed_individual, "isA", c)}, 1);
+
+      if(isCompoundEntity(c))
+        action.compound_entities.push_back(std::make_pair(unnamed_individual, c));
+
       if(!existInAction(action, actions))
       {
         actions.push_back(std::move(action));
@@ -210,13 +228,18 @@ bool Reg::getNamingActions(NodePtr node, std::vector<Action>& actions)
       {
         std::vector<Action> tmp_actions;
         std::swap(tmp_actions, local_actions);
+        bool is_compound_entity = false;
         for(auto& usable_classe: usable_classes)
         {
+          is_compound_entity = isCompoundEntity(usable_classe);
+
           for(auto& action : tmp_actions)
           {
             local_actions.push_back(action);
             local_actions.back().triplets.insert(std::make_shared<Triplet>(unnamed_individual, "isA", usable_classe));
             local_actions.back().path_cost += 1;
+            if(is_compound_entity)
+              local_actions.back().compound_entities.push_back(std::make_pair(unnamed_individual, usable_classe));
           }
         }
       }
@@ -250,7 +273,8 @@ void Reg::getDiffActions(NodePtr node, std::vector<Action>& actions)
         {
           Action action({d}, 1);
           if(isUsableProperty(d->relation))
-            if(!existInAction(action, actions)){
+            if(!existInAction(action, actions))
+            {
               actions.push_back(action);
               StatsManager::getInstance().simple_relation_created++;
             }
@@ -263,7 +287,8 @@ void Reg::getDiffActions(NodePtr node, std::vector<Action>& actions)
         {
           Action action({d}, 2); // extra cost
           if(isUsableProperty(d->relation))
-            if(!existInAction(action, actions)){
+            if(!existInAction(action, actions))
+            {
               actions.push_back(action);
               StatsManager::getInstance().simple_relation_created++;
             }
@@ -273,14 +298,40 @@ void Reg::getDiffActions(NodePtr node, std::vector<Action>& actions)
   }
 }
 
+void Reg::getCompoundActions(NodePtr node, std::vector<Action>& actions)
+{
+  for(auto& compound_entity : node->compound_entities)
+  {
+    auto properties = compound_entity.second.getNextProperties();
+    for(auto& property : properties)
+    {
+      auto ons = onto_.onto->individual_graph_.getOn(compound_entity.first, property);
+      for(auto& on : ons)
+      {
+        auto d = std::make_shared<Triplet>(compound_entity.first, property, on);
+        if(existInNode(node, d) == false)
+        {
+          Action action({d}, 1); // TODO cost
+          if(isUsableProperty(d->relation))
+            if(!existInAction(action, actions))
+            {
+              actions.push_back(action);
+              StatsManager::getInstance().compound_relation_created++;
+            }
+        }
+      }
+    }
+  }
+}
 
 std::vector<Action> Reg::getActions(NodePtr node)
 {
 #ifdef DEBUG
-  std::cout << "----- getActions -----" << std::endl;
-  std::cout << "unnamed: " << std::endl;
+  std::cout << COLOR_RED << "************* getActions *************" << COLOR_OFF << std::endl;
+  std::cout << "unnamed: ";
   for(auto& amb : node->unnamed_individuals)
-    std::cout << amb << " " << std::endl;
+    std::cout << amb << ", ";
+  std::cout << std::endl;
 #endif
 
   std::vector<Action> actions;
@@ -296,6 +347,7 @@ std::vector<Action> Reg::getActions(NodePtr node)
   }
 
   getDiffActions(node, actions);
+  getCompoundActions(node, actions);
 
 #ifdef DEBUG
   std::cout << "found " << actions.size() << " actions" << std::endl;
@@ -309,25 +361,118 @@ NodePtr Reg::getChildNode(NodePtr node, Action& action)
   NodePtr child = std::make_shared<Node>(node->state, action.triplets);
 
   child->query = node->query;
+  child->compound_entities = node->compound_entities;
   child->unnamed_individuals.clear();
 
 #ifdef DEBUG
-  std::cout << "create child : " << action.toString() << std::endl;
+  std::cout << COLOR_RED << "************* create child : " << action.toString() << " *************" << COLOR_OFF << std::endl;
 #endif
 
-  for(auto& triplet : action.triplets)
+  if(action.compound_entities.size())
   {
-    if(triplet->relation != "isA" && !onto_.isUsableIndividual(triplet->on) && !isAExist(child, triplet->on))
+    for(auto& compound_entity : action.compound_entities)
     {
-      child->unnamed_individuals.insert(triplet->on);
-      variables_.set(triplet->on);
+      child->compound_entities.insert({compound_entity.first, {compound_entity.first, compound_entity.second}});
+      child->compound_entities.at(compound_entity.first).setLabels(onto_.onto->class_graph_.getNames(compound_entity.second));
+
+      auto current_state = child->state;
+      while(current_state != nullptr)
+      {
+        for(auto& triplet : current_state->triplets)
+        {
+          if(triplet->on == compound_entity.first)
+          {
+            auto inv_properties = onto_.onto->individual_graph_.getWith(triplet->on, triplet->from);
+            for(auto& inv : inv_properties)
+              if(child->compound_entities.at(compound_entity.first).isUsableProperty(inv))
+              {
+                child->compound_entities.at(compound_entity.first).setSubjectProperty(inv);
+                break;
+              }
+          }
+        }
+        current_state = current_state->ancestor;
+      }
+
+      child->compound_entities.at(compound_entity.first).createLabelsGraph();
+      #ifdef DEBUG
+        std::cout << "==> createLabelsGraph" << std::endl;
+        std::cout << child->compound_entities.at(compound_entity.first).toString() << std::endl;
+        std::cout << child->compound_entities.at(compound_entity.first).nodeGraphToString() << std::endl;
+      #endif
     }
-    child->query.push_back(toQuery(triplet));
   }
 
   child->path_cost = node->path_cost + action.path_cost;
 
+  std::unordered_set<TripletPtr> triplets = action.triplets;
+  while(triplets.size())
+  {
+    triplets = setTripletsToChildNode(child, triplets);
+    for(auto& triplet : triplets)
+      child->state->triplets.insert(triplet);
+  }
+
   return child;
+}
+
+std::unordered_set<TripletPtr> Reg::setTripletsToChildNode(NodePtr& node, const std::unordered_set<TripletPtr>& triplets)
+{
+  std::unordered_set<TripletPtr> extracted_triplets;
+
+  for(auto& triplet : triplets)
+  {
+    if(triplet->relation != "isA" && !onto_.isUsableIndividual(triplet->on) && !isAExist(node, triplet->on))
+    {
+      node->unnamed_individuals.insert(triplet->on);
+      variables_.set(triplet->on);
+    }
+
+    auto compound_entity_it = node->compound_entities.find(triplet->from);
+    if(compound_entity_it != node->compound_entities.end())
+    {
+      if(compound_entity_it->second.isInvolvedProperty(triplet->relation))
+      {
+        if(compound_entity_it->second.useProperty(triplet->relation) == false)
+        {
+          #ifdef DEBUG
+            std::cout << "aborted" << std::endl;
+          #endif
+          node = nullptr;
+          return {};
+        }
+
+        if(compound_entity_it->second.hasDirectProperty())
+        {
+          std::string direct_property = compound_entity_it->second.getDirectProperty();
+          auto direct_ons = onto_.onto->individual_graph_.getOn(triplet->from, direct_property);
+          if(direct_ons.size())
+          {
+            node->path_cost += 1;
+            extracted_triplets.insert(std::make_shared<Triplet>(triplet->from, direct_property, *direct_ons.begin()));
+          }
+          else
+          {
+            #ifdef DEBUG
+              std::cout << "aborted" << std::endl;
+            #endif
+            node = nullptr;
+            return {};
+          }
+        }
+
+        #ifdef DEBUG
+          std::cout << "on compound_entity " << triplet->from << " : " << triplet->relation << std::endl;
+          std::cout << compound_entity_it->second.toString() << std::endl;
+          std::cout << compound_entity_it->second.nodeGraphToString() << std::endl;
+        #endif
+      }
+    }
+
+    node->query.push_back(toQuery(triplet));
+  }
+
+  return extracted_triplets;
 }
 
 bool Reg::isAExist(NodePtr node, const std::string& indiv)
@@ -350,6 +495,15 @@ bool Reg::isAExist(NodePtr node, const std::string& indiv)
 
     state = state->ancestor;
   }
+  return false;
+}
+
+bool Reg::isCompoundEntity(const std::string& class_name)
+{
+  auto class_names = onto_.onto->class_graph_.getNames(class_name);
+  for(auto& name : class_names)
+    if(name.find("{?") != std::string::npos)
+      return true;
   return false;
 }
 
@@ -439,6 +593,14 @@ int Reg::getH(const NodePtr& node)
   }
 
   return node->ambiguous[problem_.goal].size();
+}
+
+bool Reg::isCompoundEntitiesValid(const NodePtr& node)
+{
+  for(auto& compound_entity : node->compound_entities)
+    if(compound_entity.second.isValid() == false)
+      return false;
+  return true;
 }
 
 std::string Reg::toQuery(const std::vector<std::string>& sub_queries)

@@ -19,14 +19,16 @@ int main(int argc, char **argv)
     "/home/gsarthou/Robots/Pr2/Semantic/catkin_ws/src/referring_expression_generation/resources/ontology/expe_ontology.owl",
     "/home/gsarthou/Robots/Pr2/Semantic/catkin_ws/src/referring_expression_generation/resources/ontology/bedroom.owl",
     "/home/gsarthou/Robots/Pr2/Semantic/catkin_ws/src/referring_expression_generation/resources/ontology/living_room.owl",
-    "/home/gsarthou/Robots/Pr2/Semantic/catkin_ws/src/referring_expression_generation/resources/ontology/office.owl"
+    "/home/gsarthou/Robots/Pr2/Semantic/catkin_ws/src/referring_expression_generation/resources/ontology/office.owl",
+    "/home/gsarthou/Robots/Pr2/Semantic/catkin_ws/src/referring_expression_generation/resources/ontology/performance.owl",
+    "/home/gsarthou/Robots/Pr2/Semantic/catkin_ws/src/referring_expression_generation/resources/ontology/actions.owl"
     },
     "/home/gsarthou/Robots/Pr2/Semantic/catkin_ws/src/referring_expression_generation/resources/conf/no_generalization.yaml");
   solver.closeOntology();
   ros::Duration(3).sleep();
 
   reg::Solution_t solution;
-  reg::Problem_t problem("room_B_book_6", {}, {"VisualRelation"});
+  reg::Problem_t problem("knife_2", {}, {}); //"VisualRelation"
 
   StatsManager::getInstance().reset();
 

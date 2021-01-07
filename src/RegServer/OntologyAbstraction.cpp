@@ -69,6 +69,9 @@ namespace reg
 
   bool OntologyAbstraction::isUsableIndividual(const std::string& indiv_id)
   {
+    if(unusable_individuals_.find(indiv_id) != unusable_individuals_.end())
+      return false;
+
     if(indiv_id.find('#') != std::string::npos)
       return true;
 
@@ -78,10 +81,16 @@ namespace reg
       if(this->individuals.find(label, false).size() == 1)
         return true;
       else
+      {
+        unusable_individuals_.insert(indiv_id);
         return false;
+      }
     }
     else
+    {
+      unusable_individuals_.insert(indiv_id);
       return false;
+    }
   }
 
   bool OntologyAbstraction::isUsableClass(const std::string& class_id)
